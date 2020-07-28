@@ -1,0 +1,286 @@
+package std::dom;
+
+import std::text::String;
+import std::collection::Stack;
+import std::collection::ArrayList;
+import std::collection::Iterator;
+
+import std::Object;
+import std::data::Encoder;
+import std::data::Decoder;
+
+import std::dom::Node;
+import std::dom::DomNode;
+import std::dom::DomAttribute;
+
+public class XML : Object
+{
+	public static BEGIN->const char = '<';
+	public static END->const char = '>';
+	public static TERMINATE->const char = '/';
+	public static EMPTY->const char = ' ';
+	public static EQUAL->const char = '=';
+	public static SQUOT->const char = '\'';
+	public static DQUOT->const char = '\"';
+	public static WRAP->const char = '\n';
+
+	public static decode(str->const char[])->Node
+	{
+		return new XMLDecoder().decode(str);
+	}
+
+	public static encode(node->Node)->const char[]
+	{
+		return new XMLEncoder().encode(node);
+	}
+
+	public static access(root->Node, url->const char[])->Node
+	{
+		//url like 'name0/.../name?attrib=*/.../nameN';
+		nameList->ArrayList=new ArrayList();
+		urlString->String=new String(url);
+		urlString.split("/", nameList);
+		itr->Iterator=nameList.iterator();
+		node->Node=root;
+		while(itr.hasNext())
+		{
+			urlItem->String=itr.next();
+			index->int=urlItem.indexOf("?");
+			if(0<=index)
+			{
+				name->String=urlItem.subString(0,index);
+				attribs->String=urlItem.subString(index+1);
+				index->int=attribs.indexOf("=");
+				if(0<=index)
+				{
+					attribName->String=attribs.subString(0,index).trim();
+					attribValue->String=attribs.subString(index+1).trim();
+					node=node.child(name.toString(),attribName.toString(),attribValue.toString());
+				}
+				else node=node.child(name.toString());
+			}
+			else node=node.child(urlItem.toString());
+			if(node==null)return null;
+		}
+		return (node==root)?null:node;
+	}
+
+}
+
+public class XMLDecoder : Object, @Decoder
+{
+	public XMLDecoder(){}
+
+	public decode(xml->const char[])->Object
+	{
+		text->String = new String(xml);
+		stack->Stack = new Stack();
+		root->DomNode = new DomNode();
+		start->int = 0;//标签开始下标；
+		end->int = 0; //标签结束下标；
+		lever->int = 0;//标签计数
+		len->const int = text.length();
+		i->int = 0;
+		k->int = 0;
+		while(k++<len)
+		{	
+			i=k-1;
+			code->char = text.charAt(i);
+			if (XML.BEGIN == code) {
+				start = i;
+				if (lever % 2 == 0)++lever;
+			}
+			else if (XML.END == code) {
+				if (XML.TERMINATE == text.charAt(start + 1)) {//结束标签（例：</tag>）；
+					label->String = text.subString(start + 2, i - start - 2).trim();
+					if (isValidName(label) && label.equals(stack.top()->(Node).name())) {
+						item->Node = stack.pop();
+						///设置标签值；
+						value->String = text.subString(end + 1, start - end - 1).trim();
+						if (!value.empty()) item.value(value.toString());
+						if (stack.empty()) {
+							root.child(item);
+							return root;//唯一正确出口；
+						}
+						--lever;
+					}
+					else continue;
+				}
+				else if (XML.TERMINATE == text.charAt(i - 1)) {//结束标签（例：<tag/>）；
+					label->String = text.subString(start + 1, i - start - 2).trim();
+					index->int = label.indexOf(" ");
+					name->String = (index <= 0) ? label : label.subString(0, index);
+					if (isValidName(name)) {
+						//设置标签名称；
+						item->DomNode=new DomNode(name.toString(), null);
+						//设置标签属性；
+						if (index > 0) {
+							if(parseAttribute(item, label.subString(index)));
+						}
+						if (stack.empty()) {
+							root.child(item);
+							return root;//唯一正确出口；
+						}
+						else stack.top()->(Node).child(item);
+						--lever;
+					}
+					else continue;
+				}
+				else {//开始标签（例：<tag ...>）；
+					if (lever % 2 == 0)continue;
+					label->String = text.subString(start + 1, i - start - 1).trim();
+					index->int = label.indexOf(" ");
+					name->String = (index <= 0) ? label : label.subString(0, index);
+					if (isValidName(name)) {
+						item->DomNode=new DomNode(name.toString(), null);
+						//设置标签属性；
+						if (index > 0) {
+							if(parseAttribute(item, label.subString(index)));
+						}
+						if (!stack.empty()) stack.top()->(Node).child(item);
+						stack.push(item);
+						--lever;
+					}
+					else continue;
+				}
+				end = i;
+			}
+		}
+		return null;
+	}
+
+	isValidName(name->String)->boolean
+	{
+		text->String = name.trim();
+		len->int = text.length();
+		if (len == 0)return false;
+		code->char = text.charAt(0);
+		if ('_' == code || ('A' <= code && code <= 'Z') || ('a' <= code && code <= 'z')) {
+			i->int=1;
+			while(i<len)
+			{
+				code = text.charAt(i++);
+				if ('0' <= code && code <= '9');
+				else if ('A' <= code && code <= 'Z');
+				else if ('a' <= code && code <= 'z');
+				else if ('_' == code);
+				else if ('-' == code);
+				else if ('.' == code);
+				else if (':' == code);
+				else return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	parseAttribute(node->Node, xml->String)->boolean
+	{
+		name->String=null;
+		value->String=null;
+		len->int = xml.length();
+		i->int=0;
+		start->int=0;
+		while(i < len) {
+			if (XML.EQUAL == xml.charAt(i)) {
+				name = xml.subString(start + 1, i - start - 1).trim();
+				if (isValidName(name)==false)return false;
+				++i;
+				while (i < len&&XML.EMPTY == xml.charAt(i))++i;
+				if (i < len) {
+					start = i;
+					if(XML.SQUOT == xml.charAt(i)){
+						++i;
+						while(i<len){
+							if (XML.SQUOT == xml.charAt(i)) {
+								value = xml.subString(start + 1, i - start - 1).trim();
+								node.attrib(new DomAttribute(node,name.toString(), value.toString()));
+								break;
+							}
+							++i;
+						}
+					}
+					else if(XML.DQUOT == xml.charAt(i)){
+						++i;
+						while(i<len){
+							if (XML.DQUOT == xml.charAt(i)) {
+								value = xml.subString(start + 1, i - start - 1).trim();
+								node.attrib(new DomAttribute(node, name.toString(), value.toString()));
+								break;
+							}
+							++i;
+						}
+					}
+					else{
+						while(i<len){
+							if (XML.EMPTY == xml.charAt(i)) {
+								value = xml.subString(start, i - start).trim();
+								node.attrib(new DomAttribute(node, name.toString(), value.toString()));
+								break;
+							}
+							++i;
+						}
+					}
+				}
+				else break;
+				start = i;
+			}
+			++i;
+		}
+		return true;
+	}
+}
+
+public class XMLEncoder : Object, @Encoder
+{
+	public XMLEncoder(){}
+
+	public encode(node->Object)->const char[]
+	{
+		if(node==null||!(node instanceof Node))return null;
+		out->String=new String();
+		childNum->int=node->(Node).childNum();
+		i->int=0;
+		while(i<childNum){
+			item->Node=node->(Node).child(i++);
+			saveNode(out, item, 0);
+		}
+		return out.toString();
+	}
+
+	saveNode(out->String, node->Node, lever->int)
+	{
+		i->int=0;
+		while(i++<lever) out=out.append(XML.EMPTY);
+		out=out.append(XML.BEGIN).append(node.name());
+		{
+			attribNum->int=node.attribNum();
+			i=0;
+			while(i<attribNum){
+				item->Node=node.attrib(i++);
+				out=out.append(XML.EMPTY).append(item.name()).append(XML.EQUAL).append(XML.DQUOT).append(item.value()).append(XML.DQUOT);
+			}
+		}
+		if (0<node.childNum()) {
+			out=out.append(XML.END).append(XML.WRAP);
+			childNum->int=node.childNum();
+			i=0;
+			while(i<childNum){
+				item->Node=node.child(i++);
+				saveNode(out, item, lever + 1);
+			}
+			i=0;
+			while(i++<lever) out=out.append(XML.EMPTY);
+			out=out.append(XML.BEGIN).append(XML.TERMINATE).append(node.name());
+		}
+		else {
+			if (node.value() == null) {
+				out=out.append(XML.TERMINATE);
+			}
+			else {
+				out=out.append(XML.END).append(node.value()).append(XML.BEGIN).append(XML.TERMINATE).append(node.name());
+			}
+		}
+		out=out.append(XML.END).append(XML.WRAP);
+	}
+}

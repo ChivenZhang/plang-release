@@ -1,0 +1,98 @@
+package std;
+
+public class IO
+{
+	public static EOF->const char=-1;
+	/*
+	printf/scanf--format占位符规则：
+	%b:Byte
+	%z:Bool
+	%c:Char
+	%S:Short
+	%d:Int
+	%D:Long
+	%f:Float
+	%F:Double
+	%s:String
+	*/
+	public static native printf(format->const char[]);
+
+	public static native printf(format->const char[], v1->Type);
+
+	public static native printf(format->const char[], v1->Type, v2->Type);
+
+	public static native printf(format->const char[], v1->Type, v2->Type, v3->Type);
+
+	public static native printf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type);
+
+	public static native printf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type);
+
+	public static native printf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type);
+
+	public static native printf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type, v7->Type);
+
+	public static native printf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type, v7->Type, v8->Type);
+
+	public static native printf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type, v7->Type, v8->Type, v9->Type);
+
+	public static native printf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type, v7->Type, v8->Type, v9->Type, v10->Type);
+
+	public static native scanf(format->const char[], v1->Type);
+
+	public static native scanf(format->const char[], v1->Type, v2->Type);
+
+	public static native scanf(format->const char[], v1->Type, v2->Type, v3->Type);
+
+	public static native scanf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type);
+
+	public static native scanf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type);
+
+	public static native scanf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type);
+
+	public static native scanf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type, v7->Type);
+
+	public static native scanf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type, v7->Type, v8->Type);
+
+	public static native scanf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type, v7->Type, v8->Type, v9->Type);
+
+	public static native scanf(format->const char[], v1->Type, v2->Type, v3->Type, v4->Type, v5->Type, v6->Type, v7->Type, v8->Type, v9->Type, v10->Type);
+
+	public static native pstdin()->long;
+
+	public static native pstdout()->long;
+
+	public static native pstderr()->long;
+
+	public static native fopen(path->const char[], mode->const char[])->long;
+
+	public static native freopen(path->const char[], mode->const char[], handle->long)->long;
+
+	public static native fclose(handle->long)->boolean;
+
+	public static native feof(handle->long)->boolean;
+
+	public static native ferror(handle->long)->boolean;
+
+	public static native fgets(handle->long, buffer->char[], size->int)->boolean;
+
+	public static native fputs(handle->long, buffer->const char[])->boolean;
+
+	public static native fgetc(handle->long)->char;
+
+	public static native fputc(handle->long, ch->char)->boolean;
+
+	public static SEEK_SET->const int=0;
+	public static SEEK_CUR->const int=1;
+	public static SEEK_END->const int=2;
+	//whence=SEEK_SET|SEEK_CUR|SEEK_END
+	public static native fseek(handle->long, offset->long, whence->int)->boolean;
+
+	public static native ftell(handle->long)->long;
+
+	public static native frewind(handle->long);
+
+	public static native fflush(handle->long)->boolean;
+
+	public static native tmpfile()->long;
+
+}

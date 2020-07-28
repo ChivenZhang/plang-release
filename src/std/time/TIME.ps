@@ -1,0 +1,24 @@
+package std;
+
+public class TIME
+{
+	public static native clock()->long;
+	public static native time()->long;
+	public static native time(year->int,mon->int,day->int,hour->int,min->int,sec->int)->long;
+	public static native sleep(millisec->long);
+	//format:%Y-%m-%d %H:%M:%S
+	public static native format(buffer->char[], format->const char[], time->long)->boolean;
+	public static native year(time->long)->int;
+	public static native month(time->long)->int;
+	public static native day(time->long)->int;
+	public static native hour(time->long)->int;
+	public static native minute(time->long)->int;
+	public static native second(time->long)->int;
+	public static native weekday(time->long)->int;
+	public static native yearday(time->long)->int;
+	public static native isdst(time->long)->int;
+
+	public static format(buffer->char[], time->long)->boolean{
+		return TIME.format(buffer,"%Y-%m-%d %H:%M:%S", time);
+	}
+}

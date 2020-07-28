@@ -1,0 +1,102 @@
+package std::io;
+
+import std::IO;
+import std::DATA;
+
+public class FileWriter : Writer
+{
+	protected file->long=0;
+	public FileWriter(path->const char[])
+	{
+		file=IO.fopen(path, "wb");
+	}
+	public FileWriter(path->const char[], append->boolean)
+	{
+		file=IO.fopen(path, append?"a":"wb");
+	}
+	public write(buffer->const char[], size->int)->int
+	{
+		if(file==0||buffer==null||size<=0)return 0;
+		bufLen->const int=buffer.length;
+		end->int=(size<=bufLen)?size:bufLen;
+		i->int=0;
+		while(i<end){
+			if(IO.fputc(file, buffer[i]))++i;
+			else break;
+		}
+		return i;
+	}
+	public writeLine(buffer->const char[])->int
+	{
+		if(file==0||buffer==null)return 0;
+		bufLen->const int=buffer.length;
+		i->int=0;
+		while(i<bufLen){
+			if(buffer[i]=='\0' || IO.fputc(file, buffer[i])==false)break;
+			else if(buffer[i]=='\n')break;
+			else ++i;
+		}
+		return i;
+	}
+	private static buffer->char[]=new char[50];
+	public writeBool(e->boolean)->boolean
+	{
+		FileWriter.buffer[0]=e?1:0;
+		return write(FileWriter.buffer,1)==1;
+	}
+	public writeByte(e->byte)->boolean
+	{
+		FileWriter.buffer[0]=e;
+		return write(FileWriter.buffer,1)==1;
+	}
+	public writeShort(e->short)->boolean
+	{
+		if(DATA.i2bs(e,FileWriter.buffer))
+		{
+			return write(FileWriter.buffer, 2)==2;
+		}
+		else return false;
+	}
+	public writeInt(e->int)->boolean
+	{
+		if(DATA.i2bs(e,FileWriter.buffer))
+		{
+			return write(FileWriter.buffer, 4)==4;
+		}
+		else return false;
+	}
+	public writeFloat(e->float)->boolean
+	{
+		if(DATA.f2bs(e,FileWriter.buffer))
+		{
+			return write(FileWriter.buffer, 4)==4;
+		}
+		else return false;
+	}
+	public writeDouble(e->double)->boolean
+	{
+		if(DATA.d2bs(e,FileWriter.buffer))
+		{
+			return write(FileWriter.buffer, 8)==8;
+		}
+		else return false;
+	}
+	public eof()->boolean
+	{
+		return IO.feof(file);
+	}
+	public flush()->boolean
+	{
+		return IO.fflush(file);
+	}
+	public close()->boolean
+	{
+		b->boolean=IO.fclose(file);
+		if(b)file=0;
+		return b;
+	}
+	public available()->boolean
+	{
+		return file!=0;
+	}
+}

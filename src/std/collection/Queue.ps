@@ -1,0 +1,28 @@
+package std::collection;
+
+import std::Object;
+
+public class Queue : Collection
+{
+	d_list->LinkedList;
+	public Queue(){d_list=new LinkedList();}
+	public push(e->Object){d_list.add(e);}
+	public pop()->Object
+	{
+		if(d_list.empty())return null;
+		else{
+			temp->Object=d_list.get(0);
+			d_list.remove(0);
+			return temp;
+		}
+	}
+	public top()->Object
+	{
+		if(d_list.empty())return null;
+		else return d_list.get(0);
+	}
+	public exist(e->Object)->boolean{return d_list.exist(e);}
+	public empty()->boolean{return d_list.empty();}
+	public clear(){d_list.clear();}
+	public size()->int{return d_list.size();}
+}

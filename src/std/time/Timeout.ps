@@ -1,0 +1,19 @@
+package std::time;
+
+import std::Object;
+import std::TIME;
+
+public class Timeout : Object
+{
+	public static sleep(millisec->long)
+	{
+		t0->long = TIME.clock();
+		millisec=(0<=millisec)?millisec:0;
+		while(true)
+		{
+			t1->long = TIME.clock();
+			if(t0+millisec<=t1)break;
+			co_yield null;
+		}
+	}
+}

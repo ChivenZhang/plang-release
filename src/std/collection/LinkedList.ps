@@ -1,0 +1,175 @@
+package std::collection;
+
+import std::Object;
+
+public class LinkedList : List 
+{
+	private d_head->LinkedListNode;
+	private d_tail->LinkedListNode;
+	private d_size->int;
+
+	public LinkedList()
+	{
+		d_head=new LinkedListNode();
+		d_tail=d_head;
+		d_size=0;
+	}
+
+	public add(e->Object)
+	{
+		if(e==null)return;
+		node->LinkedListNode=new LinkedListNode();
+		node.data=e;
+		d_tail.next=node;
+		d_tail=node;
+		++d_size;
+	}
+
+	public remove(index->int)
+	{
+		if(0<=index && index<d_size){
+			i->int=0;
+			node->LinkedListNode=d_head;
+			while(node.next!=null){
+				if(i==index){
+					node.next=node.next.next;
+					--d_size;
+					if(node.next==null){
+						d_tail=node;
+					}
+					return;
+				}
+				node=node.next;
+				++i;
+			}
+		}
+	}
+
+	public remove(e->Object)
+	{
+		if(e==null)return;
+		node->LinkedListNode=d_head;
+		while(node.next!=null){
+			if(node.next.data.equals(e)){
+				node.next=node.next.next;
+				--d_size;
+				if(node.next==null){
+					d_tail=node;
+				}
+				return;
+			}
+			node=node.next;
+		}
+	}
+
+	public get(index->int)->Object 
+	{
+		if(0<=index && index<d_size){
+			i->int=0;
+			node->LinkedListNode=d_head;
+			while(node.next !=null){
+				if(i==index){
+					return node.next.data;
+				}
+				node=node.next;
+				++i;
+			}
+		}
+		return null;
+	}
+
+	public set(index->int, e->Object)
+	{
+		if(e==null)return;
+		if(0<=index&&index<d_size){
+			node->LinkedListNode=d_head;
+			i->int=0;
+			while(i<d_size){
+				if(i==index){
+					node.next.data=e;
+					return;
+				}
+				++i;
+				node=node.next;
+			}
+		}
+	}
+
+	public index(e->Object)->int
+	{
+		if(e==null)return -1;
+		i->int=0;
+		node->LinkedListNode=d_head;
+		while(node.next!=null){
+			if(node.next.data.equals(e)){
+				return i;
+			}
+			++i;
+			node=node.next;
+		}
+		return -1;
+	}
+
+	public exist(e->Object)->boolean
+	{
+		if(e==null)return false;
+		node->LinkedListNode=d_head;
+		while(node.next!=null){
+			if(node.next.data.equals(e)){
+				return true;
+			}
+			node=node.next;
+		}
+		return false;
+	}
+
+	public empty()->boolean{return d_size==0;}
+
+	public clear()
+	{
+		d_head.next=null;
+		d_tail=d_head;
+		d_size=0;
+	}
+
+	public size()->int{return d_size;}
+	public iterator()->Iterator{return new LinkedListIterator(d_head.next);}
+
+	public toArray()->Object[]
+	{
+		if(empty())return null;
+		temp->Object[]=new Object[d_size];
+		i->int=0;
+		node->LinkedListNode=d_head.next;
+		while(node!=null){
+			temp[i]=node.data;
+			node=node.next;
+			++i;
+		}
+		return temp;
+	}
+}
+
+
+class LinkedListNode : Object
+{
+	public next->LinkedListNode=null;
+	public data->Object=null;
+	public LinkedListNode(){}
+}
+
+class LinkedListIterator : Iterator
+{
+	private d_index->LinkedListNode;
+	public LinkedListIterator(node->LinkedListNode){d_index=node;}
+	public hasNext()->boolean{return d_index!=null;}
+	public next()->Object
+	{
+		if(d_index==null)return null;
+		else {
+			item->Object=d_index.data;
+			d_index=d_index.next;
+			return item;
+		}
+	}
+}

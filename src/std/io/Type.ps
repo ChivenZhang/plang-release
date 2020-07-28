@@ -1,0 +1,146 @@
+package std;
+
+//职责：基本数据类型基类；
+public class Type : Object
+{
+	//limits
+	public static MIN_BYTE->int = -128;
+	public static MAX_BYTE->int = 127;
+	public static MIN_SHORT->int = -32768;
+	public static MAX_SHORT->int = 32767;
+	public static MIN_INT->int = -2147483648;
+	public static MAX_INT->int = 2147483647;
+	public static MIN_LONG->long = -9223372036854774808L;
+	public static MAX_LONG->long = 9223372036854774807L;
+	public static MIN_FLOAT->float = 1.401298e-45F;
+	public static MAX_FLOAT->float = 3.402823e+38F;
+	public static MIN_DOUBLE->double = 4.9000000e-324;
+	public static MAX_DOUBLE->double = 1.797693e+308;
+
+	//getter
+	public boolValue()->boolean{return false;}
+	public byteValue()->byte{return 0;}
+	public charValue()->char{return '\0';}
+	public shortValue()->short{return 0;}
+	public intValue()->int{return 0;}
+	public longValue()->long{return 0L;}
+	public floatValue()->float{return 0F;}
+	public doubleValue()->double{return 0D;}
+	public stringValue()->char[]{return null;}
+	//setter
+	public boolValue(v->boolean){}
+	public byteValue(v->byte){}
+	public charValue(v->char){}
+	public shortValue(v->short){}
+	public intValue(v->int){}
+	public longValue(v->long){}
+	public floatValue(v->float){}
+	public doubleValue(v->double){}
+	public stringValue(v->char[]){}
+	//factory
+	public static get(v->boolean)->Type{return new Bool(v);}
+	public static get(v->byte)->Type{return new Byte(v);}
+	public static get(v->char)->Type{return new Char(v);}
+	public static get(v->short)->Type{return new Short(v);}
+	public static get(v->int)->Type{return new Int(v);}
+	public static get(v->long)->Type{return new Long(v);}
+	public static get(v->float)->Type{return new Float(v);}
+	public static get(v->double)->Type{return new Double(v);}
+	public static get(v->const char[])->Type{return new String(v);}
+}
+public class Bool : Type
+{
+	private e->boolean; 
+	public Bool(){e=false;}
+	public Bool(v->boolean){e = v;} 
+	public boolValue()->boolean{return e;}
+	public boolValue(v->boolean) {e = v;}
+	public equals(o->Object)->boolean{return (o instanceof Bool) && o->(Bool).e==e;}
+	public hashcode()->int{return e?1:0;}
+}
+public class Byte : Type
+{
+	private e->byte; 
+	public Byte(){e=0;}
+	public Byte(v->byte){e = v;}
+	public byteValue()->byte{return e;}
+	public byteValue(v->byte) {e=v;}
+	public equals(o->Object)->boolean{return (o instanceof Byte) && o->(Byte).e==e;}
+	public hashcode()->int{return e;}
+}
+public class Char : Type
+{
+	private e->char; 
+	public Char(){e='\0';}
+	public Char(v->char){e = v;} 
+	public charValue()->char{return e;}
+	public charValue(v->char){e=v;}
+	public equals(o->Object)->boolean{return (o instanceof Char) && o->(Char).e==e;}
+	public hashcode()->int{return e;}
+}
+public class Short : Type
+{
+	private e->short; 
+	public Short(){e=0;}
+	public Short(v->short){e = v;}
+	public shortValue()->short{return e;}
+	public shortValue(v->short){e=v;}
+	public equals(o->Object)->boolean{return (o instanceof Short) && o->(Short).e==e;}
+	public hashcode()->int{return e;}
+}
+public class Int : Type
+{
+	private e->int; 
+	public Int(){e=0;}
+	public Int(v->int){e = v;}
+	public intValue()->int{return e;}
+	public intValue(v->int) {e=v;}
+	public equals(o->Object)->boolean{return (o instanceof Int) && o->(Int).e==e;}
+	public hashcode()->int{return e;}
+}
+public class Long : Type
+{
+	private e->long; 
+	public Long(){e=0L;}
+	public Long(v->long){e = v;}
+	public longValue()->long{return e;} 
+	public longValue(v->long){e=v;}
+	public equals(o->Object)->boolean{return (o instanceof Long) && o->(Long).e==e;}
+	public hashcode()->int{return e;}
+}
+public class Float : Type
+{
+	private e->float; 
+	public Float(){e=0F;}
+	public Float(v->float){e = v;}
+	public floatValue()->float{return e;}
+	public floatValue(v->float){e=v;}
+	public equals(o->Object)->boolean{return (o instanceof Float) && o->(Float).e==e;}
+	public hashcode()->int{return e;}
+}
+public class Double : Type
+{
+	private e->double; 
+	public Double(){e=0D;}
+	public Double(v->double){e = v;} 
+	public doubleValue()->double{return e;}
+	public doubleValue(v->double){e=v;}
+	public equals(o->Object)->boolean{return (o instanceof Double) && o->(Double).e==e;}
+	public hashcode()->int{return e;}
+}
+public class String : Type
+{
+	private e->char[]; 
+	public String(){}
+	public String(v->const char[]){
+		if(v==null) return;
+		vLen->const int=TEXT.length(v);
+		e = new char[vLen+1];
+		b->boolean=TEXT.copy(e,0,v,0,vLen);
+		e[vLen]='\0';
+	}
+	public stringValue()->const char[] {return e;}
+	public stringValue(v->char[]){e=v;}
+	public equals(o->Object)->boolean{return (o instanceof String) && o->(String).e==e;}
+	public hashcode()->int{return TEXT.hash(e);}
+}

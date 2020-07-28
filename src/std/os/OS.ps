@@ -1,0 +1,9 @@
+package std;
+
+public class OS
+{
+	public static native system(cmd->const char[])->int;
+	public static native getenv(buffer->char[], name->const char[])->boolean;
+	public static native srand(seed->long);
+	public static native rand()->int;
+}

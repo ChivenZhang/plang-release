@@ -1,0 +1,51 @@
+package std::exception;
+
+import std::Object;
+import std::IO;
+import std::Type;
+
+public class Exception : std::Object
+{
+	message->const char[];
+	depth->int = 0;
+	last->Exception;
+	next->Exception;
+
+	public Exception(){}
+
+	public Exception(msg->const char[])
+	{
+		this.message = msg;
+	}
+
+	public Exception(msg->const char[], exp->Exception){
+		this.message = msg;
+		if(exp != null){
+			this.next = exp;
+			exp.last = this;
+			this.depth = this.next.depth+1;
+		}
+	}
+
+	public getMessage()->const char[]
+	{
+		return this.message;
+	}
+
+	public getDepth()->int
+	{
+		return this.depth;
+	}
+
+	public printStack()
+	{
+		if(this.last==null);
+		else {
+			IO.printf("    at ");
+		}
+		IO.printf("Exception:%s\n", Type.get(message));
+		if(this.next != null){
+			this.next.printStack();
+		}
+	}
+}

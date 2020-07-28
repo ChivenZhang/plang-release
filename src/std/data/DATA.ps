@@ -1,0 +1,37 @@
+package std;
+
+import std::Object;
+
+public class DATA
+{
+	//function: transform int to byte array;
+	public static native i2bs(n0->int, buffer->char[])->boolean;
+	public static native l2bs(n0->long, buffer->char[])->boolean;
+	public static native f2bs(n0->float, buffer->char[])->boolean;
+	public static native d2bs(n0->double, buffer->char[])->boolean;
+
+	//function: transform byte array to int;
+	public static native bs2i(buffer->const char[])->int;
+	public static native bs2l(buffer->const char[])->long;
+	public static native bs2f(buffer->const char[])->float;
+	public static native bs2d(buffer->const char[])->double;
+
+	public static native zmemcpy(dest->boolean[], from0->int, src->const boolean[], from1->int, num->int);
+	public static native bmemcpy(dest->byte[], from0->int, src->const byte[], from1->int, num->int);
+	public static native cmemcpy(dest->char[], from0->int, src->const char[], from1->int, num->int);
+	public static native smemcpy(dest->short[], from0->int, src->const short[], from1->int, num->int);
+	public static native imemcpy(dest->int[], from0->int, src->const int[], from1->int, num->int);
+	public static native lmemcpy(dest->long[], from0->int, src->const long[], from1->int, num->int);
+	public static native fmemcpy(dest->float[], from0->int, src->const float[], from1->int, num->int);
+	public static native dmemcpy(dest->double[], from0->int, src->const double[], from1->int, num->int);
+
+	public static native zmemset(dest->boolean[], from->int, num->int, value->boolean);
+	public static native bmemset(dest->byte[], from->int, num->int, value->byte);
+	public static native cmemset(dest->char[], from->int, num->int, value->char);
+	public static native smemset(dest->short[], from->int, num->int, value->short);
+	public static native imemset(dest->int[], from->int, num->int, value->int);
+	public static native lmemset(dest->long[], from->int, num->int, value->long);
+	public static native fmemset(dest->float[], from->int, num->int, value->float);
+	public static native dmemset(dest->double[], from->int, num->int, value->double);
+
+}

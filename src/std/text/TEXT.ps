@@ -1,0 +1,300 @@
+package std;
+
+import std::collection::Collection;
+
+public class TEXT
+{
+	public static native length(s0->const char[])->int;
+	public static native compare(s0->const char[], s1->const char[])->int;
+	public static native copy(dest->char[], from0->int, src->const char[], from1->int, num->int)->boolean;
+	public static native concat(dest->char[], from0->int, src->const char[], from1->int, num->int)->boolean;
+	public static native index(s0->const char[], from->int, target->char)->int;
+	public static native index(s0->const char[], from->int, target->const char[])->int;
+	public static native lastIndex(s0->const char[], from->int, target->char)->int;
+	public static native lastIndex(s0->const char[], from->int, target->const char[])->int;
+	public static native parse(s0->const char[])->float;
+	public static native parse(num->float, buffer->char[])->boolean;
+	public static native parse(num->int, buffer->char[])->boolean;
+	public static native trim(s0->const char[], dest->char[])->boolean;
+	public static native hash(s0->const char[])->long;
+
+	private static buffer->char[]=new char[256];
+
+	public static concat(s0->const char[], s1->const char[])->const char[]
+	{
+		if(s0==null)return s1;
+		else if(s1==null)return s0;
+		s0Len->const int=TEXT.length(s0);
+		s1Len->const int=TEXT.length(s1);
+		tempLen->const int=s0Len+s1Len;
+		temp->char[]=new char[tempLen+1];
+		b->boolean=TEXT.copy(temp,0,s0,0,s0Len);
+		b=TEXT.concat(temp,s0Len,s1,0,s1Len);
+		temp[tempLen]='\0';
+		return temp;
+	}
+	
+	public static parse(n0->float)->const char[]
+	{
+		if(TEXT.parse(n0, TEXT.buffer))return TEXT.buffer;
+		else return null;
+	}
+
+	public static empty(s0->const char[])->boolean
+	{
+		return s0==null||s0[0]=='\0';
+	}
+
+	public static equals(s0->const char[], s1->const char[])->boolean
+	{
+		return TEXT.compare(s0, s1)==0;
+	}
+
+	public static equalsIgnoreCase(s0->const char[], s1->const char[])->boolean
+	{
+		if(s0==null&&s1==null)return true;
+		s0Len->const int=TEXT.length(s0);
+		s1Len->const int=TEXT.length(s1);
+		if(0<s0Len&&s0Len==s1Len)
+		{
+			i->int=0;
+			while(i<s0Len)
+			{
+				ch0->char=s0[i];
+				ch1->char=s1[i];
+				if(ch0==ch1)++i;
+				else if('A'<=ch0&&ch0<='Z'&&(ch0-'A'+'a'==ch1))++i;
+				else if('A'<=ch1&&ch1<='Z'&&(ch0==ch1-'A'+'a'))++i;
+				else return false;
+			}
+			return true;
+		}
+		else return false;
+	}
+
+	public static contains(s0->const char[], target->char)->boolean
+	{
+		return TEXT.index(s0, 0, target)>=0;
+	}
+
+	public static contains(s0->const char[], target->const char[])->boolean
+	{
+		return TEXT.index(s0, 0, target)>=0;
+	}
+
+	public static lower(s0->const char[], buf->char[])->boolean
+	{
+		if(s0==null||buf==null)return false;
+		s0Len->int=TEXT.length(s0);
+		s0Len=(s0Len<buf.length)?s0Len:buf.length;
+		i->int=0;
+		while(i<s0Len)
+		{
+			ch->char = s0[i];
+			buf[i++]=('A'<=ch&&ch<='Z')?(ch-'A'+'a'):ch;
+		}
+		buf[s0Len]='\0';
+		return true;
+	}
+
+	public static lower(s0->const char[])->const char[]
+	{
+		if(s0==null)return null;
+		s0Len->const int=TEXT.length(s0);
+		temp->char[]=new char[s0Len+1];
+		return TEXT.lower(s0, temp) ? temp : null;
+	}
+
+	public static upper(s0->const char[], buf->char[])->boolean
+	{
+		if(s0==null||buf==null) return false;
+		s0Len->int=TEXT.length(s0);
+		s0Len=(s0Len<buf.length)?s0Len:buf.length;
+		i->int=0;
+		while(i<s0Len)
+		{
+			ch->char = s0[i];
+			buf[i++]=('a'<=ch&&ch<='z')?(ch-'a'+'A'):ch;
+		}
+		buf[s0Len]='\0';
+		return true;
+	}
+
+	public static upper(s0->const char[])->const char[]
+	{
+		if(s0==null) return null;
+		s0Len->const int=TEXT.length(s0);
+		temp->char[]=new char[s0Len+1];
+		return TEXT.upper(s0, temp) ? temp : null;
+	}
+
+	public static reserve(s0->const char[], buf->char[])->boolean
+	{
+		if(s0==null||buf==null||s0==buf)return false;
+		s0Len->const int=TEXT.length(s0);
+		i->int=0;
+		while(i<s0Len)
+		{
+			buf[i]=s0[s0Len - ++i];
+		}
+		buf[s0Len]='\0';
+		return true;
+	}
+
+	public static reserve(s0->const char[])->const char[]
+	{
+		if(s0==null)return null;
+		s0Len->const int=TEXT.length(s0);
+		temp->char[]=new char[s0Len+1];
+		return TEXT.reserve(s0, temp)?temp:null;
+	}
+
+	public static trim(s0->const char[])->const char[]
+	{
+		if(s0==null)return null;
+		s0Len->const int=TEXT.length(s0);
+		temp->char[]=new char[s0Len+1];
+		if(TEXT.trim(s0, temp)){
+			temp[s0Len]='\0';
+			return temp;
+		}
+		return null;
+	}
+
+	public static insert(s0->const char[], from->int, target->const char[])->const char[]
+	{
+		if(s0==null)return null;
+		else if(from<0||target==null)return s0;
+		s0Len->const int=TEXT.length(s0);
+		targetLen->const int=TEXT.length(target);
+		if(targetLen==0)return s0;
+		from=(from<s0Len)?from:s0Len;
+		tempLen->const int=s0Len+targetLen;
+		temp->char[]=new char[tempLen+1];
+		b->boolean=TEXT.copy(temp,0,s0,0,from);
+		b=TEXT.copy(temp,from,target,0,targetLen);
+		b=TEXT.copy(temp,targetLen+from,s0,from,s0Len-from);
+		temp[tempLen]='\0';
+		return temp;
+	}
+
+	public static sub(s0->const char[], from->int)->const char[]
+	{
+		if(s0==null)return null;
+		return TEXT.sub(s0, from, s0.length);
+	}
+
+	public static sub(s0->const char[], from->int, len->int)->const char[]
+	{
+		if(s0==null||from<0||len<=0)return null;
+		s0Len->const int=TEXT.length(s0);
+		tempLen->const int=(from+len<0)?0:(from+len<s0Len?len:s0Len-from);
+		if(tempLen==0)return null;
+		temp->char[]=new char[tempLen+1];
+		from0->int=(from<0)?0:(from<s0Len?from:s0Len);
+		b->boolean=TEXT.copy(temp,0,s0,from0,tempLen);
+		temp[tempLen]='\0';
+		return temp;
+	}
+
+	public static start(s0->const char[], target->const char[])->boolean
+	{
+		if(s0==null || target==null)return false;
+		s0Len->const int=TEXT.length(s0);
+		targetLen->const int=TEXT.length(target);
+		if(0<targetLen&&targetLen<=s0Len)
+		{
+			i->int=0;
+			while(i<targetLen)
+			{
+				if(s0[i]==target[i])++i;
+				else break;
+			}
+			return (i==targetLen);
+		}
+		else return false;
+	}
+
+	public static end(s0->const char[], target->const char[])->boolean
+	{
+		if(s0==null||target==null)return false;
+		s0Len->const int=TEXT.length(s0);
+		targetLen->const int=TEXT.length(target);
+		if(0<targetLen&&targetLen<=s0Len)
+		{
+			start->int=s0Len-targetLen;
+			i->int=0;
+			while(i<targetLen)
+			{
+				if(s0[start+i]==target[i])++i;
+				else break;
+			}
+			return (i==targetLen);
+		}
+		else return false;
+	}
+
+	public static split(s0->const char[], target->const char[], result->Collection)
+	{
+		if(s0==null||target==null||result==null)return;
+		s0Len->const int=TEXT.length(s0);
+		targetLen->const int=TEXT.length(target);
+		i->int=0;
+		while(i+targetLen<=s0Len)
+		{
+			index->int=TEXT.index(s0,i,target);
+			if(index<0)
+			{
+				result.add(new std::text::String(TEXT.sub(s0,i)));
+				break;
+			}
+			result.add(new std::text::String(TEXT.sub(s0,i,index-i)));
+			i=index+targetLen;
+		}
+	}
+
+	public static replace(s0->const char[], from->int, target->const char[], replacement->const char[])->const char[]
+	{
+		if(s0==null)return null;
+		s0Len->const int=TEXT.length(s0);
+		targetLen->const int=TEXT.length(target);
+		if(s0Len==0||targetLen==0)return s0;
+		start->int=TEXT.index(s0, from, target);
+		if(start<0)return s0;
+		replaceLen->const int=TEXT.length(replacement);
+		tempLen->const int=s0Len+replaceLen-targetLen;
+		temp->char[]=new char[tempLen+1];
+		b->boolean=TEXT.copy(temp,0,s0,0,start);
+		b=TEXT.copy(temp,start,replacement,0,replaceLen);
+		newStart->int=start+targetLen;
+		b=TEXT.copy(temp,start+replaceLen,s0,newStart,s0Len-newStart);
+		temp[tempLen]='\0';
+		return temp;
+	}
+	
+	public static replaceAll(s0->const char[], from->int, target->const char[], replacement->const char[])->const char[]
+	{
+		if(s0==null)return null;
+		targetLen->const int=TEXT.length(target);
+		replaceLen->const int=TEXT.length(replacement);
+		if(targetLen<=0||replaceLen<0)return s0;
+		while(true)
+		{
+			if(s0==null)return null;
+			s0Len->const int=TEXT.length(s0);
+			if(s0Len==0||targetLen==0)return s0;
+			start->int=TEXT.index(s0, from, target);
+			if(start<0)return s0;
+			tempLen->const int=s0Len+replaceLen-targetLen;
+			temp->char[]=new char[tempLen+1];
+			b->boolean=TEXT.copy(temp,0,s0,0,start);
+			b=TEXT.copy(temp,start,replacement,0,replaceLen);
+			newStart->int=start+targetLen;
+			b=TEXT.copy(temp,start+replaceLen,s0,newStart,s0Len-newStart);
+			temp[tempLen]='\0';
+			s0=temp;
+			from=newStart;
+		}
+		return s0;
+	}
+}

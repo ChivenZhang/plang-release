@@ -1,0 +1,13 @@
+package std::data;
+
+import std::Object;
+
+public interface Encoder
+{
+	encode(obj->Object)->const char[];
+}
+
+public interface Decoder
+{
+	decode(text->const char[])->Object;
+}

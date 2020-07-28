@@ -1,0 +1,165 @@
+package std::collection;
+
+import std::Object;
+
+public class ArrayList : List
+{
+	friend class ArrayListIterator;
+
+	d_array->Object[];
+	d_size->int;
+
+	public ArrayList()
+	{
+		d_array = new Object[16];
+		d_size=0;
+	}
+
+	public add(e->Object)
+	{
+		if(e==null)return;
+		if(d_size < d_array.length);
+		else{
+			temp->Object[] = new Object[2*d_array.length];
+			i->int = 0;
+			while(i<d_array.length) temp[i] = d_array[i++];
+			d_array = temp;
+		}
+		d_array[d_size++] = e;
+	}
+
+	public add(e->Object, index->int)
+	{
+		if(e==null)return;
+		if(0<=index&&index<=d_size){
+			if(d_size<d_array.length){
+				i->int = d_size;
+				while(index<i){
+					d_array[i] = d_array[--i];
+				}
+				d_array[index] = e;
+			}
+			else{
+				temp->Object[] = new Object[2*d_array.length];
+				i->int = 0;
+				while(i<index) {
+					temp[i] = d_array[i++];
+				}
+				i=d_size;
+				while(index<i){
+					temp[i] = d_array[--i];
+				}
+				temp[index]=e;
+				d_array = temp;
+			}
+			++d_size;
+		}
+	}
+
+	public remove(index->int)
+	{
+		if(0<=index && index<d_size){
+			i->int = index;
+			while(i+1<d_size){
+				d_array[i] = d_array[++i];
+			}
+			--d_size;
+		}
+	}
+
+	public remove(e->Object)
+	{
+		if(e==null)return;
+		i->int=0;
+		while(i<d_size){
+			if(d_array[i].equals(e)){
+				while(i+1<d_size){
+					d_array[i]=d_array[++i];
+				}
+				--d_size;
+				return;
+			}
+			++i;
+		}
+	}
+
+	public get(index->int)->Object
+	{
+		if(0<=index && index<d_size){
+			return d_array[index];
+		}
+		return null;
+	}
+
+	public set(index->int, e->Object)
+	{
+		if(e==null)return;
+		if(0<=index&&index<d_size){
+			d_array[index]=e;
+		}
+	}
+
+	public index(e->Object)->int
+	{
+		if(e==null)return -1;
+		i->int=0;
+		while(i<d_size){
+			if(d_array[i].equals(e)){
+				return i;
+			}
+			else ++i;
+		}
+		return -1;
+	}
+
+	public exist(e->Object)->boolean
+	{
+		if(e==null)return false;
+		i->int=0;
+		while(i<d_size){
+			if(d_array[i++].equals(e)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public empty()->boolean{return d_size==0;}
+
+	public clear()
+	{
+		d_array = new Object[16];
+		d_size = 0;
+	}
+
+	public size()->int{return d_size;}
+
+	public iterator()->Iterator{return new ArrayListIterator(this);}
+
+	public toArray()->Object[]
+	{
+		if(empty())return null;
+		temp->Object[]=new Object[d_size];
+		i->int=0;
+		while(i<d_size){
+			temp[i]=d_array[i++];
+		}
+		return temp;
+	}
+}
+
+class ArrayListIterator : Iterator
+{
+	private d_vec->ArrayList;
+	private d_index->int=0;
+	public ArrayListIterator(vec->ArrayList){d_vec=vec;}
+	public hasNext()->boolean
+	{
+		return d_index<d_vec.d_size;
+	}
+	public next()->Object
+	{
+		if(d_index<d_vec.d_size)return d_vec.d_array[d_index++];
+		else return null;
+	}
+}

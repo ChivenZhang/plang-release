@@ -1,0 +1,127 @@
+package test;
+import std::IO;
+import std::Type;
+
+public class TestComputeStatement{
+	public static test(){
+		//三目运算；
+		TestComputeStatement.testsanmu();
+		//条件运算；
+		TestComputeStatement.testandornot();
+		//位运算；
+		TestComputeStatement.testbit();
+		//关系运算；
+		TestComputeStatement.testguanxi();
+		//算术运算；
+		TestComputeStatement.testsuanshu();
+	}
+
+	static testsanmu(){
+		IO.printf("测试三目运算符\n");
+		a0->int = 3;
+		a1->int = 2;
+		a2->int = 5;
+		max->int = (a0<a1)?(a1<a2?a2:a1):(a0<a2?a2:a0);
+		IO.printf("max(%d %d %d)=%d ", Type.get(a0), Type.get(a1), Type.get(a2), Type.get(max));
+		min->int = (a0<a1)?(a0<a2?a0:a2):(a1<a2?a1:a2);
+		IO.printf("min(%d %d %d)=%d \n", Type.get(a0), Type.get(a1), Type.get(a2), Type.get(min));
+	}
+
+	static testandornot(){
+		IO.printf("测试条件运算\n");
+		a0->boolean = false;
+		IO.printf("%z ", Type.get(a0));
+		IO.printf("%z ", Type.get(a0 && true));
+		IO.printf("%z ", Type.get(a0 && false));
+		IO.printf("%z ", Type.get(a0 || true));
+		IO.printf("%z ", Type.get(a0 && false));
+
+		IO.printf("%z ", Type.get(a0 && false || true));
+		IO.printf("%z ", Type.get(a0 && true || false));
+		IO.printf("%z ", Type.get(a0 && false || false));
+		IO.printf("%z ", Type.get(a0 && true || true));
+
+		IO.printf("%z ", Type.get(a0 || false && true));
+		IO.printf("%z ", Type.get(a0 || true && false));
+		IO.printf("%z ", Type.get(a0 || false && false));
+		IO.printf("%z ", Type.get(a0 || true && true));
+
+		IO.printf("%z ", Type.get(a0 || false || true));
+		IO.printf("%z ", Type.get(a0 || true || false));
+		IO.printf("%z ", Type.get(a0 || false || false));
+		IO.printf("%z ", Type.get(a0 || true || true));
+
+		IO.printf("%z ", Type.get(a0 && false && true));
+		IO.printf("%z ", Type.get(a0 && true && false));
+		IO.printf("%z ", Type.get(a0 && false && false));
+		IO.printf("%z \n", Type.get(a0 && true && true));
+		a0 = true;
+		IO.printf("%z ", Type.get(a0));
+		IO.printf("%z ", Type.get(a0 && true));
+		IO.printf("%z ", Type.get(a0 && false));
+		IO.printf("%z ", Type.get(a0 || true));
+		IO.printf("%z ", Type.get(a0 && false));
+
+		IO.printf("%z ", Type.get(a0 && false || true));
+		IO.printf("%z ", Type.get(a0 && true || false));
+		IO.printf("%z ", Type.get(a0 && false || false));
+		IO.printf("%z ", Type.get(a0 && true || true));
+
+		IO.printf("%z ", Type.get(a0 || false && true));
+		IO.printf("%z ", Type.get(a0 || true && false));
+		IO.printf("%z ", Type.get(a0 || false && false));
+		IO.printf("%z ", Type.get(a0 || true && true));
+
+		IO.printf("%z ", Type.get(a0 || false || true));
+		IO.printf("%z ", Type.get(a0 || true || false));
+		IO.printf("%z ", Type.get(a0 || false || false));
+		IO.printf("%z ", Type.get(a0 || true || true));
+
+		IO.printf("%z ", Type.get(a0 && false && true));
+		IO.printf("%z ", Type.get(a0 && true && false));
+		IO.printf("%z ", Type.get(a0 && false && false));
+		IO.printf("%z \n", Type.get(a0 && true && true));
+	}
+
+	static testbit(){
+		IO.printf("测试位运算\n");
+		a0->byte = 1;
+		i->int = 1;
+		while(i<8)
+			IO.printf("%d ", Type.get(a0<<i++));
+		IO.printf("\n");
+		a0=0;
+		a0 = a0 | 0x0010;
+		IO.printf("%d ", Type.get(a0));
+		a0 = ~(a0|0x0010) & 0x0010;
+		IO.printf("%d ", Type.get(a0));
+		IO.printf("\n");
+	}
+
+	static testguanxi(){
+		IO.printf("测试关系运算\n");
+		a0->int=3;
+		a1->int=7;
+		if(a0<a1){
+			IO.printf("%d+%d=%d ", Type.get(a0), Type.get(a1-a0), Type.get(a1));
+		}
+		else if(a0>a1) {
+			IO.printf("%d+%d=%d ", Type.get(a0), Type.get(a0-a1), Type.get(a1));
+		}
+		else IO.printf("%d=%d ", Type.get(a0), Type.get(a1));
+		IO.printf("\n");
+	}
+
+	static testsuanshu(){
+		IO.printf("测试算术运算\n");
+		a0->int=0;
+		i->int=1;
+		while(i<=100) a0+=i++;
+		IO.printf("1+2+...+100=%d ", Type.get(a0));
+		a0=1;
+		i=1;
+		while(i<=10) a0*=i++;
+		IO.printf("1x2x...x10=%d ", Type.get(a0));
+		IO.printf("1+2*3+4=%d \n", Type.get(1+2*3+4));
+	}
+}

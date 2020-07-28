@@ -1,0 +1,119 @@
+package test;
+import std::IO;
+import std::Type;
+
+public class TestControlStatement{
+	public static test(){
+		//¿ÕÓï¾ä£»
+		;
+		//¼òµ¥Óï¾ä£»
+		TestControlStatement.testsingle();
+		
+		//¸´ºÏÓï¾ä£»
+		TestControlStatement.testcomplex();
+		
+		//if/elseÓï¾ä£»
+		TestControlStatement.testifelse();
+
+		//while/doÓï¾ä£»
+		TestControlStatement.testwhiledo();
+		
+		//break/continueÓï¾ä£»
+		TestControlStatement.testbreakcontinue();
+		//try/catchÓï¾ä£»
+		try{
+			IO.printf("²âÊÔÒì³£²¶»ñ\n");
+			//throwÓï¾ä£»
+			TestControlStatement.testthrow();
+		}catch(e->Type){
+			IO.printf("²¶»ñÒì³£:%d\n", e);
+		}
+
+		//returnÓï¾ä£»
+		TestControlStatement.testreturn();
+	}
+
+	static testsingle(){
+		IO.printf("²âÊÔ¼òµ¥Óï¾ä\n");
+		a0->boolean = true;
+		a1->byte = 0;
+		a2->char = '1';
+		a3->short = 2;
+		a4->int = 3;
+		a5->long = 4;
+		a6->float = 5;
+		a7->double = 6;
+		IO.printf("%z %b %c %S %d %D %f %F\n", 
+			Type.get(a0),
+			Type.get(a1),
+			Type.get(a2),
+			Type.get(a3),
+			Type.get(a4),
+			Type.get(a5),
+			Type.get(a6),
+			Type.get(a7)
+		);
+	}
+
+	static testcomplex(){
+		IO.printf("²âÊÔ¸´ºÏÓï¾ä\n");
+		a0->int = 0;
+		{
+			a0->int = 1;
+			a1->int = 2;
+			IO.printf("%d %d ", Type.get(a0), Type.get(a1));
+		}
+		{
+			a1->int = 4;
+			IO.printf("%d %d\n", Type.get(a0), Type.get(a1));
+		}
+	}
+
+	static testifelse(){
+		IO.printf("²âÊÔif/elseÓï¾ä\n");
+		a0->int = 3;
+		if(a0<5) IO.printf("%d<5 ", Type.get(a0));
+		else IO.printf("5<=%d ", Type.get(a0));
+		a0 = 7;
+		if(a0<5) IO.printf("%d<5 ", Type.get(a0));
+		else IO.printf("5<=%d ", Type.get(a0));
+		IO.printf("\n");
+	}
+
+	static testwhiledo(){
+		IO.printf("²âÊÔÑ­»·Óï¾ä\n");
+		a0->int = 0;
+		while(a0<10) 
+			IO.printf("%d ", Type.get(a0++));
+
+		a0 = 0;
+		do 
+			IO.printf("%d ", Type.get(a0++));
+		while(a0<10);
+		IO.printf("\n");
+	}
+
+	static testbreakcontinue(){
+		IO.printf("²âÊÔÖÐ¶ÏÓï¾ä\n");
+		a0->int = 0;
+		while(a0<10) {
+			IO.printf("%d ", Type.get(a0++));
+			if(a0==5)break;
+			else continue;
+			IO.printf("²âÊÔÖÐ¶ÏÓï¾ä³ö´í\n");
+		}
+		IO.printf("\n");
+	}
+
+	static testthrow(){
+		IO.printf("²âÊÔÅ×³öÒì³£\n");
+		throw Type.get(2);
+		IO.printf("²âÊÔÅ×³öÒì³£³ö´í\n");
+	}
+
+	static testreturn(){
+		IO.printf("²âÊÔreturnÓï¾ä\n");
+		return;
+		//IO.printf("²âÊÔreturnÓï¾ä³ö´í\n");
+	}
+}

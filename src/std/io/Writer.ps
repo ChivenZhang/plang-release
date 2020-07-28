@@ -1,0 +1,47 @@
+package std::io;
+
+import std::Object;
+
+public class Writer : @Output
+{
+	public write(buffer->const char[], size->int)->int{
+		return 0;
+	}
+	public writeLine(buffer->const char[])->int{
+		return 0;
+	}
+	public writeBool(e->boolean)->boolean{
+		return false;
+	}
+	public writeByte(e->byte)->boolean{
+		return false;
+	}
+	public writeShort(e->short)->boolean{
+		return false;
+	}
+	public writeInt(e->int)->boolean{
+		return false;
+	}
+	public writeFloat(e->float)->boolean{
+		return false;
+	}
+	public writeDouble(e->double)->boolean{
+		return false;
+	}
+	public writeObject(e->Object)->boolean{
+		return false;
+	}
+	public eof()->boolean{
+		return true;
+	}
+	public flush()->boolean{
+		return false;
+	}
+	public close()->boolean{
+		return false;
+	}
+	public available()->boolean
+	{
+		return false;
+	}
+}

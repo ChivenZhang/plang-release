@@ -1,0 +1,70 @@
+package test;
+
+import std::IO;
+import std::Type;
+
+class Man {
+	private age->int = 6;
+	public Man(){}
+	public getAge()->int{return age;}
+	public setAge(v->int){age=v;}
+	public say(){ IO.printf("i am man\n"); }
+	public getThis()->Man{ return this; }
+}
+
+class WhiteMan : Man{
+	public WhiteMan(){ super(); }
+	public say(){ IO.printf("i am white\n"); }
+}
+
+class YellowMan : Man{
+	public YellowMan(){ super(); }
+	public say(){ IO.printf("i am yellow\n"); }
+}
+
+class BlackMan : Man{
+	public BlackMan(){ super(); }
+	public say(){ IO.printf("i am black\n"); }
+}
+
+class Alien : Man {
+	public Alien(){ super(); }
+	public say(){ IO.printf("i am alien, age: %d\n", Type.get(super.getAge())); }
+	public bye(){IO.printf("bye, earth\n");}
+}
+
+class ManType{
+	public static white->const int = 0;
+	public static yellow->const int = 1;
+	public static black->const int = 2;
+	public static alien->const int = 3;
+}
+
+class ManFactory{
+	public static getInstance(type->int)->Man{
+		if(type==ManType.white){
+			return new WhiteMan();
+		}else if(type==ManType.yellow){
+			return new YellowMan();
+		}else if(type==ManType.black){
+			return new BlackMan();
+		}else {
+			m->Man = new Alien();
+			m.setAge(type);
+			return m;
+		}
+	}
+}
+
+public class TestObjectFeature {
+	public static test(){
+		IO.printf("测试面向对象特性\n");
+		m->Man = ManFactory.getInstance(ManType.yellow);
+		m.say();
+		m = ManFactory.getInstance(ManType.black);
+		m.say();
+		m = ManFactory.getInstance(ManType.alien);
+		m.say();
+		IO.printf("\n");
+	}
+}

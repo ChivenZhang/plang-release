@@ -1,0 +1,11 @@
+package std::collection;
+
+import std::Object;
+
+public interface IComparable{
+	compare(e->Object)->int;
+}
+
+public class Comparison{
+	public compare(a->Object, b->Object)->int{return 0;}
+}

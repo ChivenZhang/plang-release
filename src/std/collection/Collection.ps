@@ -1,0 +1,14 @@
+package std::collection;
+
+import std::Object;
+
+public class Collection : Object
+{
+	public add(e->Object){}
+	public remove(e->Object){}
+	public exist(e->Object)->boolean{return false;}
+	public empty()->boolean{return true;}
+	public clear(){}
+	public size()->int{return 0;}
+	public iterator()->Iterator{return null;}
+}

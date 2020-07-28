@@ -1,0 +1,145 @@
+package std::dom;
+
+import std::Object;
+import std::collection::List;
+import std::collection::ArrayList;
+import std::collection::Iterator;
+
+import std::TEXT;
+
+//role : super class of DOM.
+public class Node : Object
+{
+	protected parent->Node;
+	protected child->List;
+	protected attrib->List;
+	protected prefix->const char[];
+	protected name->const char[];
+	protected value->const char[];
+
+	public Node(){}
+	public parent()->Node{return parent;}
+	public parent(node->Node){parent=node;}
+
+	public childNum()->int{return 0;}
+	public child(index->int)->Node{return null;}
+	public child(name->const char[])->Node{return null;}
+	public child(name->const char[], attrib->const char[], value->const char[])->Node{return null;}
+	public child(node->Node, index->int){}
+	public child(node->Node){}
+
+	public attribNum()->int{return 0;}
+	public attrib(index->int)->Node{return null;}
+	public attrib(name->const char[])->Node{return null;}
+	public attrib(index->int, node->Node){}
+	public attrib(node->Node){}
+
+	public prefix()->const char[]{return prefix;}
+	public prefix(text->const char[]){prefix=text;}
+	public name()->const char[]{return name;}
+	public name(text->const char[]){name=text;}
+	public value()->const char[]{return value;}
+	public value(text->const char[]){value=text;}
+
+}
+
+public class DomNode : Node
+{
+	public DomNode()
+	{
+		super();
+		child=new ArrayList();
+		attrib=new ArrayList();
+	}
+
+	public DomNode(parent->DomNode)
+	{
+		super();
+		child=new ArrayList();
+		attrib=new ArrayList();
+		this.parent=parent;
+	}
+
+	public DomNode(name->const char[], value->const char[])
+	{
+		super();
+		child=new ArrayList();
+		attrib=new ArrayList();
+		this.name=name;
+		this.value=value;
+	}
+
+	public childNum()->int{return child.size();}
+	public child(index->int)->Node{return child.get(index);}
+	public child(node->Node){child.add(node);}
+	public child(node->Node, index->int){child.set(index, node);}
+	public child(name->const char[])->Node
+	{
+		itr->Iterator=child.iterator();
+		while(itr.hasNext())
+		{
+			item->Node=itr.next();
+			if(TEXT.equals(item.name, name))
+			{
+				return item;
+			}
+		}
+		return null;
+	}
+	public child(name->const char[], attrib->const char[], value->const char[])->Node
+	{
+		itr->Iterator=child.iterator();
+		while(itr.hasNext())
+		{
+			item->Node=itr.next();
+			if(TEXT.equals(item.name, name))
+			{
+				temp->Node=item.attrib(attrib);
+				if(temp==null)continue;
+				if(TEXT.equals(temp.value(), value))return item;
+			}
+		}
+		return null;
+	}
+	public attribNum()->int{return attrib.size();}
+	public attrib(index->int)->Node{return attrib.get(index);}
+	public attrib(index->int, node->Node){attrib.set(index, node);}
+	public attrib(node->Node){attrib.add(node);}
+	public attrib(name->const char[])->Node
+	{
+		itr->Iterator=attrib.iterator();
+		while(itr.hasNext())
+		{
+			item->Node=itr.next();
+			if(TEXT.equals(item.name, name))
+			{
+				return item;
+			}
+		}
+		return null;
+	}
+}
+
+public class DomAttribute : Node
+{
+	public DomAttribute(parent->Node)
+	{
+		super();
+		this.parent=parent;
+	}
+
+	public DomAttribute(parent->Node, name->const char[])
+	{
+		super();
+		this.parent=parent;
+		this.name=name;
+	}
+
+	public DomAttribute(parent->Node, name->const char[], value->const char[])
+	{
+		super();
+		this.parent=parent;
+		this.name=name;
+		this.value=value;
+	}
+}

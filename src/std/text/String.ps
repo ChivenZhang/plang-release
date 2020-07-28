@@ -1,0 +1,224 @@
+package std::text;
+import std::Object;
+import std::data::CharBuffer;
+import std::TEXT;
+
+//role : String wrap.
+public class String : Object
+{
+	private buf->CharBuffer;
+
+	public String()
+	{
+		buf=new CharBuffer(16);
+		buf.put('\0', buf.position());
+	}
+
+	public String(capacity->int)
+	{
+		buf=new CharBuffer(capacity);
+		buf.put('\0', buf.position());
+	}
+
+	public String(str->const char[])
+	{
+		strLen->const int=TEXT.length(str);
+		buf=new CharBuffer(strLen+1);
+		buf.put(str,0,strLen);
+		buf.put('\0', buf.position());
+	}
+
+	public append(str->const char[])->String
+	{
+		strLen->const int=TEXT.length(str);
+		if(buf.size()<=buf.position()+strLen)
+		{
+			buf.limit(2*(buf.position()+strLen)+1);
+		}
+		buf.put(str,0,strLen);
+		buf.put('\0', buf.position());
+		return this;
+	}
+
+	public append(num->int)->String
+	{
+		temp->char[]=new char[20];
+		if(TEXT.parse(num, temp))
+		{
+			strLen->int=TEXT.length(temp);
+			if(buf.size()<=buf.position()+strLen)
+			{
+				buf.limit(2*(buf.position()+strLen)+1);
+			}
+			buf.put(temp,0,strLen);
+			buf.put('\0', buf.position());
+		}
+		return this;
+	}
+
+	public append(num->float)->String
+	{
+		temp->char[]=new char[25];
+		if(TEXT.parse(num, temp))
+		{
+			strLen->int=TEXT.length(temp);
+			if(buf.size()<=buf.position()+strLen)
+			{
+				buf.limit(2*(buf.position()+strLen)+1);
+			}
+			buf.put(temp,0,strLen);
+			buf.put('\0', buf.position());
+		}
+		return this;
+	}
+
+	public append(ch->char)->String
+	{
+		if(ch=='\0')return this;
+		if(buf.size()<=buf.position()+1)
+		{
+			buf.limit(2*(buf.position()+1)+1);
+		}
+		buf.put(ch);
+		buf.put('\0', buf.position());
+		return this;
+	}
+
+	public insert(offset->int, str->const char[])->String
+	{
+		pos->int=buf.position();
+		if(0<=offset&&offset<=pos)
+		{
+			strLen->int=TEXT.length(str);
+			buf.position(offset);
+			if(buf.size()<=pos+strLen)
+			{
+				buf.limit(2*(pos+strLen)+1);
+			}
+			if(offset==pos)
+			{
+				buf.put(str,0,strLen);
+			}
+			else
+			{
+				tempLen->int=pos-offset;
+				temp->char[]=new char[tempLen];
+				buf.get(temp,0,tempLen);
+				buf.position(offset);
+				buf.put(str,0,strLen);
+				buf.put(temp,0,tempLen);
+			}
+			buf.put('\0', buf.position());
+		}
+		return this;
+	}
+
+	public delete(offset->int, length->int)->String
+	{
+		pos->int=buf.position();
+		if(0<=offset&&0<=length&&offset+length<=pos)
+		{
+			data->const char[]=buf.array();
+			std::DATA.cmemcpy(buf.array(),offset,buf.array(),offset+length,pos-offset-length);
+			buf.position(pos-length);
+			buf.put('\0',buf.position());
+		}
+		return this;
+	}
+
+	public replace(offset->int, length->int, str->const char[])->String
+	{
+		return delete(offset, length).insert(offset, str);
+	}
+
+	public capacity()->int
+	{
+		return buf.size();
+	}
+
+	public length()->int
+	{
+		return buf.position();
+	}
+
+	public charAt(index->int)->char
+	{
+		return buf.get(index);
+	}
+
+	public charAt(index->int, e->const char)
+	{
+		buf.put(e, index);
+	}
+
+	public empty()->boolean
+	{
+		return buf.position()==0;
+	}
+
+	public equals(str->const char[])->boolean
+	{
+		return TEXT.equals(buf.array(), str);
+	}
+
+	public subString(offset->int)->String
+	{
+		return subString(offset, buf.position());
+	}
+
+	public subString(offset->int, len->int)->String
+	{
+		return new String(TEXT.sub(buf.array(), offset, len));
+	}
+
+	public trim()->String
+	{
+		return new String(TEXT.trim(buf.array()));
+	}
+
+	public reserve()->String
+	{
+		return new String(TEXT.reserve(buf.array()));
+	}
+
+	public split(target->const char[], set->std::collection::Collection)
+	{
+		TEXT.split(buf.array(), target, set);
+	}
+
+	public clone()->String
+	{
+		return new String(buf.array());
+	}
+
+	public indexOf(str->const char[])->int
+	{
+		return indexOf(str, 0);
+	}
+
+	public indexOf(str->const char[], from->int)->int
+	{
+		return TEXT.index(buf.array(), from, str);
+	}
+
+	public lastIndexOf(str->const char[])->int
+	{
+		return lastIndexOf(str, 0);
+	}
+
+	public lastIndexOf(str->const char[], from->int)->int
+	{
+		return TEXT.lastIndex(buf.array(), from, str);
+	}
+
+	public hashcode()->int
+	{
+		return TEXT.hash(buf.array());
+	}
+
+	public toString()->const char[]
+	{
+		return buf.array();
+	}
+
+}

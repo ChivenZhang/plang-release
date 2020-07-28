@@ -1,0 +1,25 @@
+package std::io;
+
+import std::IO;
+import std::TEXT;
+
+public class Stdin : Reader
+{
+	protected stdin->long;
+	public Stdin(){
+		stdin=IO.pstdin();
+	}
+	public read(buffer->char[], size->int)->int{
+		if(stdin==0||buffer==null||size==0)return 0;
+		if(IO.fgets(stdin, buffer, size))return size-1;
+		else return 0;
+	}
+	public readLine(buffer->char[])->int{
+		if(stdin==0||buffer==null)return 0;
+		if(IO.fgets(stdin, buffer, buffer.length))return buffer.length-1;
+		else return 0;
+	}
+	public flush()->boolean{
+		return IO.fflush(stdin);
+	}
+}

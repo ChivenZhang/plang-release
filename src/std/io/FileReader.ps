@@ -1,0 +1,125 @@
+package std::io;
+
+import std::IO;
+import std::DATA;
+import std::algo::Object;
+import std::text::String;
+
+public class FileReader : Reader
+{
+	protected file->long=0;
+	public FileReader(path->const char[])
+	{
+		file=IO.fopen(path, "rb");
+	}
+	public read(buffer->char[], size->int)->int
+	{
+		if(file==0||buffer==null||size<=0)return 0;
+		bufLen->const int=buffer.length;
+		end->int=(size<bufLen)?size:bufLen;
+		i->int=0;
+		while(i<end){
+			ch->char=IO.fgetc(file);
+			if(ch==IO.EOF) break;
+			else if(ch=='\r');
+			else buffer[i++]=ch;
+		}
+		return i;
+	}
+	public read()->const char[]
+	{
+		if(file==0)return null;
+		string->String=new String(100);
+		while(true){
+			ch->char=IO.fgetc(file);
+			if(ch==IO.EOF) break;
+			string=string.append(ch);
+		}
+		return string.toString();
+	}
+	public readLine(buffer->char[])->int
+	{
+		if(file==0||buffer==null)return 0;
+		i->int=0;
+		while(i+1<buffer.length){
+			ch->char=IO.fgetc(file);
+			if(ch==IO.EOF||ch=='\n'||ch=='\0') break;
+			else if(ch=='\r');
+			else buffer[i++]=ch;
+		}
+		buffer[i]='\0';
+		return i;
+	}
+	private static buffer->char[]=new char[9];
+	public readBool()->boolean
+	{
+		n->int=read(FileReader.buffer, 1);
+		if(n==1)return FileReader.buffer[0]!=0;
+		else return false;
+	}
+	public readByte()->byte
+	{
+		n->int=read(FileReader.buffer, 1);
+		if(n==1)return FileReader.buffer[0];
+		else return 0;
+	}
+	public readShort()->short
+	{
+		n->int=read(FileReader.buffer, 2);
+		if(n==2){
+			FileReader.buffer[2]=FileReader.buffer[3]=0;
+			return DATA.bs2i(FileReader.buffer);
+		}
+		else return 0;
+	}
+	public readInt()->int
+	{
+		n->int=read(FileReader.buffer, 4);
+		if(n==4){
+			return DATA.bs2i(FileReader.buffer);
+		}
+		else return 0;
+	}
+	public readLong()->long
+	{
+		n->int=read(FileReader.buffer, 8);
+		if(n==8){
+			return DATA.bs2l(FileReader.buffer);
+		}
+		else return 0L;
+	}
+	public readFloat()->float
+	{
+		n->int=read(FileReader.buffer, 4);
+		if(n==4){
+			return DATA.bs2f(FileReader.buffer);
+		}
+		else return 0F;
+	}
+	public readDouble()->double
+	{
+		n->int=read(FileReader.buffer, 8);
+		if(n==8){
+			return DATA.bs2d(FileReader.buffer);
+		}
+		else return 0D;
+	}
+	public eof()->boolean
+	{
+		return IO.feof(file);
+	}
+	public flush()->boolean
+	{
+		return IO.fflush(file);
+	}
+	public close()->boolean
+	{
+		b->boolean=IO.fclose(file);
+		if(b)file=0;
+		return b;
+	}
+	public available()->boolean
+	{
+		return file!=0;
+	}
+}

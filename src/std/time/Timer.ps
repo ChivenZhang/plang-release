@@ -1,0 +1,36 @@
+package std::time;
+
+import std::Object;
+import std::TIME;
+
+public class Timer : Object
+{
+	timeout->long;
+	public Timer(millisec->long)
+	{
+		timeout=(0<=millisec)?millisec:0;
+	}
+
+	public start(task->Task, times->int)
+	{
+		i->int=0;
+		t0->long=TIME.clock();
+		t1->long=0;
+		while(i++<times)
+		{
+			while(true)
+			{
+				t1=TIME.clock();
+				if(t0+timeout<=t1)break;
+				co_yield null;
+			}
+			t0=t1;
+			task.run();
+		}
+	}
+}
+
+public class Task : Object
+{
+	public run(){}
+}

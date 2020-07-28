@@ -1,0 +1,15 @@
+package std::collection;
+
+import std::Object;
+
+public class Map : Object{
+	public put(k->Object, v->Object){}
+	public get(k->Object)->Object{return null;}
+	public remove(k->Object){}
+	public exist(k->Object)->boolean{return false;}
+	public empty()->boolean{return true;}
+	public clear(){}
+	public size()->int{return 0;}
+	public keys()->Iterator{return null;}
+	public values()->Iterator{return null;}
+}

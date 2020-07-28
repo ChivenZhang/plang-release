@@ -1,0 +1,72 @@
+package test;
+
+import std::IO;
+import std::Type;
+import std::Bool;
+
+//职责：生产者；
+class Produce{
+	no->int = 0;
+	public Produce(v->int){no = v;}
+	public produce(lock->Type)
+	{
+		while(lock.boolValue()){
+			co_await lock;
+			IO.printf("生产者%d: i have produced\n", Type.get(no));
+		}
+	}
+}
+
+//职责：消费者；
+class Consume{
+	public static num->int = 0;
+	private no->int = 0;
+	public Consume(v->int){no=v;}
+	public consume(lock->Type) {
+		IO.printf("消费者%d: i'll comsume\n", Type.get(no));
+		co_yield lock;
+		++Consume.num;
+	}
+}
+
+public class TestCoroutineStatement {
+	
+	public static test() {
+		IO.printf("测试协程调度\n");
+		lock->Type = new Bool(true);
+		ps->Produce[] = new Produce[5];
+		//消费者数量；
+		N->int = 20;
+		//分发终止协程；
+		co_start TestCoroutineStatement.terminate(lock, ps, N);
+		i->int = 0;
+		//分发消费者协程；
+		i = 0;
+		while(i++<N){
+			co_start new Consume(i).consume(lock);
+		}
+		//分发生产者协程；
+		i = 0;
+		while(i<ps.length){
+			ps[i] = new Produce(i+1);
+			co_start ps[i++].produce(lock);
+		}
+	}
+
+	//作用：终止生产者协程；
+	static terminate(lock->Type, ps->Produce[], cnum->int){
+		while(true){
+			if(Consume.num == cnum){
+				//唤醒并中断其他协程；
+				lock.boolValue(false);
+				i->int = 0;
+				while(i++<ps.length){
+					co_yield lock;
+				}
+				break;
+			}
+			else co_yield null;
+		}
+	}
+
+}

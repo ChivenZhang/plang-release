@@ -1,0 +1,124 @@
+package std::data;
+import std::Object;
+import std::DATA;
+
+public class Buffer : Object
+{
+	//0 <= mark <= position <= limit <= size
+	protected mark->int=0;
+	protected pos->int=0;
+	protected limit->int=0;
+	protected size->int=0;
+
+	protected Buffer(){}
+	public size()->int{return size;}
+	public mark(){mark=pos;}
+	public position(v->int)
+	{
+		if(0<=v&&v<=limit) pos=v;
+	}
+	public position()->int{return pos;}
+	public limit()->int{return limit;}
+	public limit(v->int)
+	{
+		if(pos<=v&&v<=size) limit=v;
+	}
+
+	public clear(){pos=mark=0;limit=size;}
+	public flip(){limit=pos;pos=0;}
+	public rewind(){pos=0;mark=0;}
+	public reset(){pos=mark;}
+	public remain()->int{return limit-pos;}
+}
+
+public class CharBuffer : Buffer
+{
+	private buf->char[];
+
+	public CharBuffer()
+	{
+		super();
+		limit(16);
+	}
+
+	public CharBuffer(size->int)
+	{
+		super();
+		limit(size);
+	}
+
+	public limit(n->int)
+	{
+		if(0<n&&pos<=n)
+		{
+			if(n<=size)
+			{
+				limit=n;
+			}
+			else
+			{
+				temp->char[]=new char[n];
+				DATA.cmemcpy(temp,0,buf,0,pos);
+				buf=temp;
+				limit=size=n;
+			}
+		}
+	}
+
+	public put(e->const char)
+	{
+		if(pos<limit)
+		{
+			buf[pos++]=e;
+		}
+	}
+
+	public put(e->const char, index->int)
+	{
+		if(0<=index&&index<limit)
+		{
+			buf[index]=e;
+		}
+	}
+
+	public put(e->const char[], start->int, len->int)
+	{
+		if(0<=start&&0<len&&pos+len<=limit)
+		{
+			DATA.cmemcpy(buf,pos,e,start,len);
+			pos+=len;
+		}
+	}
+
+	public get()->char
+	{
+		if(pos<limit)
+		{
+			return buf[pos++];
+		}
+		return '\0';
+	}
+
+	public get(index->int)->char
+	{
+		if(0<=index&&index<limit)
+		{
+			return buf[index];
+		}
+		return '\0';
+	}
+
+	public get(e->char[], start->int, len->int)
+	{
+		if(0<=start&&0<len&&pos+len<=limit)
+		{
+			DATA.cmemcpy(e,start,buf,pos,len);
+			pos+=len;
+		}
+	}
+
+	public array()->char[]
+	{
+		return buf;
+	}
+}

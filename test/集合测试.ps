@@ -1,0 +1,57 @@
+package test;
+
+import std::IO;
+import std::Type;
+import std::collection::Collection;
+import std::collection::Map;
+import std::collection::Iterator;
+
+import std::collection::LinkedList;
+import std::collection::ArrayList;
+
+import std::collection::TreeSet;
+import std::collection::HashSet;
+
+import std::collection::HashMap;
+import std::collection::TreeMap;
+
+class TestIterator{
+	public static test(){
+		IO.printf("²âÊÔlistµü´úÆ÷\n");
+		TestIterator.testCollection(new LinkedList());
+		IO.printf("\n²âÊÔvectorµü´úÆ÷\n");
+		TestIterator.testCollection(new ArrayList());
+		IO.printf("\n²âÊÔhashsetµü´úÆ÷\n");
+		TestIterator.testCollection(new HashSet(40));
+		IO.printf("\n²âÊÔtreesetµü´úÆ÷\n");
+		TestIterator.testCollection(new TreeSet());
+		IO.printf("\n²âÊÔhashmapµü´úÆ÷\n");
+		TestIterator.testMap(new HashMap());
+		IO.printf("\n²âÊÔtreemapµü´úÆ÷\n");
+		TestIterator.testMap(new TreeMap());
+	}
+
+	static testCollection(v->Collection){
+		i->int=0;
+		while(i<50)v.add(Type.get(i++));
+		itr->Iterator=v.iterator();
+		while(itr.hasNext()){
+			IO.printf("%d ", itr.next()->(Type));
+		}
+	}
+
+	static testMap(v->Map){
+		i->int=0;
+		while(i<50)v.put(Type.get(i), Type.get(100+i++));
+		itr->Iterator=v.keys();
+		IO.printf("¼ü:");
+		while(itr.hasNext()){
+			IO.printf("%d ", itr.next()->(Type));
+		}
+		itr=v.values();
+		IO.printf("\nÖµ:");
+		while(itr.hasNext()){
+			IO.printf("%d ", itr.next()->(Type));
+		}
+	}
+}

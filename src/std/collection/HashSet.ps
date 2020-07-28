@@ -1,0 +1,119 @@
+package std::collection;
+
+import std::Object;
+
+public class HashSet : Collection 
+{
+	friend class HashSetIterator;
+
+	d_bucket->ArrayList[];
+	d_size->int;
+	public HashSet()
+	{
+		d_bucket=new ArrayList[32];
+		d_size=0;
+		i->int=0;
+		while(i<d_bucket.length){
+			d_bucket[i++]=new ArrayList();
+		}
+	}
+	public HashSet(size->int)
+	{
+		size=size<=32?32:(1024<size?1024:size);
+		d_bucket=new ArrayList[size];
+		d_size=0;
+		i->int=0;
+		while(i<d_bucket.length){
+			d_bucket[i++]=new ArrayList();
+		}
+	}
+	public add(e->Object)
+	{
+		if(e==null)return;
+		buckNum->const int=d_bucket.length;
+		hashcode->int=e.hashcode();
+		index->int=(hashcode%buckNum+buckNum)%buckNum;
+		vec->ArrayList=d_bucket[index];
+		i->int=0;
+		size->int=vec.size();
+		while(i<size){
+			if(vec.get(i).hashcode()==hashcode){
+				vec.set(i, e);
+				return;
+			}
+			++i;
+		}
+		vec.add(e);
+		++d_size;
+	}
+	
+	public remove(e->Object)
+	{
+		if(e==null)return;
+		buckNum->const int=d_bucket.length;
+		hashcode->int=e.hashcode();
+		index->int=(hashcode%buckNum+buckNum)%buckNum;
+		vec->ArrayList=d_bucket[index];
+		i->int=0;
+		size->int=vec.size();
+		while(i<size){
+			if(vec.get(i).hashcode()==hashcode){
+				vec.remove(i);
+				--d_size;
+				return;
+			}
+			++i;
+		}
+	}
+	public exist(e->Object)->boolean
+	{
+		if(e==null)return false;
+		buckNum->const int=d_bucket.length;
+		hashcode->int=e.hashcode();
+		index->int=(hashcode%buckNum+buckNum)%buckNum;
+		vec->ArrayList=d_bucket[index];
+		i->int=0;
+		size->int=vec.size();
+		while(i<size){
+			if(vec.get(i).hashcode()==hashcode){
+				return true;
+			}
+			++i;
+		}
+		return false;
+	}
+	public size()->int{return d_size;}
+	public iterator()->Iterator{return new HashSetIterator(this);}
+}
+
+class HashSetIterator : Iterator
+{
+	d_set->HashSet;
+	d_bkrow->int=0;
+	d_bkcol->int=0;
+	public HashSetIterator(set->HashSet){d_set=set;}
+	public hasNext()->boolean
+	{
+		buckets->ArrayList[]=d_set.d_bucket;
+		while(d_bkrow<buckets.length){
+			bucket->ArrayList=buckets[d_bkrow];
+			if(d_bkcol<bucket.size())return true;
+			++d_bkrow;
+			d_bkcol=0;
+		}
+		return false;
+	}
+	public next()->Object
+	{
+		buckets->ArrayList[]=d_set.d_bucket;
+		if(d_bkrow<buckets.length){
+			bucket->ArrayList=buckets[d_bkrow];
+			if(d_bkcol<bucket.size()){
+				return bucket.get(d_bkcol++);
+			}
+			else return null;
+		}
+		else return null;
+	}
+}
+

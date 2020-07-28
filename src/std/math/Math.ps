@@ -1,0 +1,166 @@
+package std;
+
+//职责：数学计算工具类；
+public class Math{
+
+	public static Pi->const double = 3.14159265358979323846264338328;
+
+	//Trigonometric functions;
+	public static native cos(x->double)->double;
+	public static native cos(x->float)->float;
+	public static native sin(x->double)->double;
+	public static native sin(x->float)->float;
+	public static native tan(x->double)->double;
+	public static native tan(x->float)->float;
+	public static native acos(x->double)->double;
+	public static native acos(x->float)->float;
+	public static native asin(x->double)->double;
+	public static native asin(x->float)->float;
+	public static native atan(x->double)->double;
+	public static native atan(x->float)->float;
+	public static native atan2(x->double, y->double)->double;
+	public static native atan2(x->float, y->float)->float;
+	
+	//Hyperbolic functions;
+	public static native cosh(x->double)->double;
+	public static native cosh(x->float)->float;
+	public static native sinh(x->double)->double;
+	public static native sinh(x->float)->float;
+	public static native tanh(x->double)->double;
+	public static native tanh(x->float)->float;
+	public static native acosh(x->double)->double;
+	public static native acosh(x->float)->float;
+	public static native asinh(x->double)->double;
+	public static native asinh(x->float)->float;
+	public static native atanh(x->double)->double;
+	public static native atanh(x->float)->float;
+
+	//Exponential and logarithmic functions;
+	public static native exp(x->double)->double;
+	public static native exp(x->float)->float;
+	public static native frexp(x->double, exp->int[])->double;
+	public static native frexp(x->float, exp->int[])->float;
+	public static native ldexp(x->double, exp->int)->double;
+	public static native ldexp(x->float, exp->int)->float;
+	public static native log(x->double)->double;
+	public static native log(x->float)->float;
+	public static native log10(x->double)->double;
+	public static native log10(x->float)->float;
+	public static native modf(x->double, intpart->double[])->double;
+	public static native modf(x->float, intpart->float[])->float;
+	public static native exp2(x->double)->double;
+	public static native exp2(x->float)->float;
+	public static native expm1(x->double)->double;
+	public static native expm1(x->float)->float;
+	public static native ilogb(x->double)->int;
+	public static native ilogb(x->float)->int;
+	public static native log1p(x->double)->double;
+	public static native log1p(x->float)->float;
+	public static native log2(x->double)->double;
+	public static native log2(x->float)->float;
+	public static native logb(x->double)->double;
+	public static native logb(x->float)->float;
+	public static native scalbn(x->double, n->int)->double;
+	public static native scalbn(x->float, n->int)->float;
+	public static native scalbln(x->double, n->long)->double;
+	public static native scalbln(x->float, n->long)->float;
+	
+	//Power functions;
+	public static native pow(base->double, exponent->double)->double;
+	public static native pow(base->float, exponent->float)->float;
+	public static native sqrt(x->double)->double;
+	public static native sqrt(x->float)->float;
+	public static native cbrt(x->double)->double;
+	public static native cbrt(x->float)->float;
+	public static native hypot(x->double, y->double)->double;
+	public static native hypot(x->float, y->float)->float;
+
+	//Error and gamma functions;
+	public static native erf(x->double)->double;
+	public static native erf(x->float)->float;
+	public static native erfc(x->double)->double;
+	public static native erfc(x->float)->float;
+	public static native tgamma(x->double)->double;
+	public static native tgamma(x->float)->float;
+	public static native lgamma(x->double)->double;
+	public static native lgamma(x->float)->float;
+	
+	//Rounding and remainder functions;
+	public static native ceil(x->double)->double;
+	public static native ceil(x->float)->float;
+	public static native floor(x->double)->double;
+	public static native floor(x->float)->float;
+	public static native fmod(numer->double, denom->double)->double;
+	public static native fmod(numer->float, denom->float)->float;
+	public static native trunc(x->double)->double;
+	public static native trunc(x->float)->float;
+	public static native round(x->double)->double;
+	public static native round(x->float)->float;
+	public static native lround(x->double)->long;
+	public static native lround(x->float)->long;
+	public static native rint(x->double)->double;
+	public static native rint(x->float)->float;
+	public static native lrint(x->double)->long;
+	public static native lrint(x->float)->long;
+	public static native nearbyint(x->double)->double;
+	public static native nearbyint(x->float)->float;
+	public static native remainder(numer->double, denom->double)->double;
+	public static native remainder(numer->float, denom->float)->float;
+	public static native remquo(numer->double, denom->double, quot->int[])->double;
+	public static native remquo(numer->float, denom->float, quot->int[])->float;
+	
+	//Floating-point manipulation functions;
+	public static native copysign(x->double, y->double)->double;
+	public static native copysign(x->float, y->float)->float;
+	public static native nan(tagp->const char[])->double;
+
+	public static native nextafter(x->double, y->double)->double;
+	public static native nextafter(x->float, y->float)->float;
+	public static native nexttoward(x->double, y->double)->double;
+	public static native nexttoward(x->float, y->double)->float;
+
+	//Minimum, maximum, difference functions;
+	public static native fdim(x->double, y->double)->double;
+	public static native fdim(x->float, y->float)->float;
+	public static native fmax(x->double, y->double)->double;
+	public static native fmax(x->float, y->float)->float;
+	public static native fmin(x->double, y->double)->double;
+	public static native fmin(x->float, y->float)->float;
+
+	//Other functions;
+	public static native fabs(x->double)->double;
+	public static native fabs(x->float)->float;
+	public static native abs(x->double)->double;
+	public static native abs(x->float)->float;
+	public static native fma(x->double, y->double, z->double)->double;
+	public static native fma(x->float, y->float, z->float)->float;
+
+	//Macros / Functions;
+	public static native fpclassify(x->double)->int;
+	public static native fpclassify(x->float)->int;
+	public static native isfinite(x->double)->boolean;
+	public static native isfinite(x->float)->boolean;
+	public static native isinf(x->double)->boolean;
+	public static native isinf(x->float)->boolean;
+	public static native isnan(x->double)->boolean;
+	public static native isnan(x->float)->boolean;
+	public static native isnormal(x->double)->boolean;
+	public static native isnormal(x->float)->boolean;
+	public static native signbit(x->double)->boolean;
+	public static native signbit(x->float)->boolean;
+
+	//Comparison macro / functions;
+	public static native isgreater(x->double, y->double)->boolean;
+	public static native isgreater(x->float, y->float)->boolean;
+	public static native isgreaterequal(x->double, y->double)->boolean;
+	public static native isgreaterequal(x->float, y->float)->boolean;
+	public static native isless(x->double, y->double)->boolean;
+	public static native isless(x->float, y->float)->boolean;
+	public static native islessequal(x->double, y->double)->boolean;
+	public static native islessequal(x->float, y->float)->boolean;
+	public static native islessgreater(x->double, y->double)->boolean;
+	public static native islessgreater(x->float, y->float)->boolean;
+	public static native isunordered(x->double, y->double)->boolean;
+	public static native isunordered(x->float, y->float)->boolean;
+
+} 

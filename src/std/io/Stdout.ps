@@ -1,0 +1,29 @@
+package std::io;
+
+import std::IO;
+import std::TEXT;
+
+public class Stdout : Writer
+{
+	protected stdout->long;
+	public Stdout(){
+		stdout=IO.pstdout();
+	}
+	public write(buffer->const char[], size->int)->int{
+		if(stdout==0||buffer==null||size==0)return 0;
+		temp->const char[]=buffer;
+		if(buffer.length<=size);
+		else temp=TEXT.sub(buffer, 0, size);
+		if(temp==null)return 0;
+		if(IO.fputs(stdout, temp))return size;
+		else return 0;
+	}
+	public writeLine(buffer->const char[])->int{
+		if(stdout==0||buffer==null)return 0;
+		if(IO.fputs(stdout, buffer))return 1;
+		else return 0;
+	}
+	public flush()->boolean{
+		return IO.fflush(stdout);
+	}
+}
