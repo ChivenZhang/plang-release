@@ -1,4 +1,4 @@
-# plang-release
+# plang-1.4.2
 
 #### 软件介绍：
 	a) Plang语言为支持面向对象的计算机编程语言;
