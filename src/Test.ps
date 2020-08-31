@@ -1,38 +1,11 @@
 import std::IO;
 import std::Type;
-import std::exception::Exception;
 
 class Test
 {
-
-	static fo(){
-		throw new Exception("in fo");
-	}
-
-	static foo(){
-		try{
-			Test.fo();
-		}
-		catch(ex->Exception){
-			throw new Exception("in foo", ex);
-		}
-	}
-
-	static fooo(){
-		try{
-			Test.foo();
-		}
-		catch(ex->Exception){
-			throw new Exception("in fooo", ex);
-		}
-	}
-
 	public static main()
 	{
-		try{
-			Test.fooo();
-		}catch(ex->Exception){
-			ex.printStack();
-		}
+		IO.printf("Hello,%s!", Type.get("world"));
+		//IO.printf("Hello,%s!", Type.get("plang"));
 	}
 }
