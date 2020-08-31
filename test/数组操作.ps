@@ -6,6 +6,15 @@ public class TestArrayStatement{
 	
 	public static test(){
 		IO.printf("测试数组操作\n");
+		
+		{
+			IO.printf("数组赋值\n");
+			a->int[] = new int[3]{1,2,3};
+			IO.printf("%d\n", Type.get(a[0]+=a[1]+=a[2]+=1));
+			IO.printf("%d ", Type.get(a[0]));
+			IO.printf("%d ", Type.get(a[1]));
+			IO.printf("%d\n", Type.get(a[2]));
+		}
 
 		IO.printf("一维:\n");
 		a->int[] = new int[5]{5,4,3};
