@@ -1,4 +1,4 @@
-# plang-release
+# plang-1.4.2
 
 #### 软件介绍：
 	a) Plang语言为支持面向对象的计算机编程语言;
@@ -14,6 +14,7 @@
 	c) 支持本地方法调用（Plang Native Interface）；
 	d) 支持协程语句（co_start/co_yield/co_await）；
 	e) 语法借鉴C++、Java；
+	f) 提供基本工具库，包含输入输出、集合、文件读写、XML解析、时间工具等
 
 #### 语言语法
 	参考《Plang用户文档》；
