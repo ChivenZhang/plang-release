@@ -2,7 +2,7 @@ cd %~dp0
 
 git add .
 
-git rm autogit.bat
+git rm gitgit.bat
 
 git commit -m 'auto-update'
 
