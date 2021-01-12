@@ -1,0 +1,149 @@
+package std::io;
+
+public class Key
+{
+	/* The unknown key */
+	public static KEY_UNKNOWN->const byte = -1;
+	/* Printable keys */
+	public static KEY_SPACE->const byte = 32;
+	public static KEY_APOSTROPHE->const byte = 39;  /* ' */
+	public static KEY_COMMA->const byte = 44;  /* , */
+	public static KEY_MINUS->const byte = 45;  /* - */
+	public static KEY_PERIOD->const byte = 46;  /* . */
+	public static KEY_SLASH->const byte = 47;  /* / */
+	public static KEY_0->const byte = 48;
+	public static KEY_1->const byte = 49;
+	public static KEY_2->const byte = 50;
+	public static KEY_3->const byte = 51;
+	public static KEY_4->const byte = 52;
+	public static KEY_5->const byte = 53;
+	public static KEY_6->const byte = 54;
+	public static KEY_7->const byte = 55;
+	public static KEY_8->const byte = 56;
+	public static KEY_9->const byte = 57;
+	public static KEY_SEMICOLON->const byte = 59;  /* ; */
+	public static KEY_EQUAL->const byte = 61;  /* = */
+	public static KEY_A->const byte = 65;
+	public static KEY_B->const byte = 66;
+	public static KEY_C->const byte = 67;
+	public static KEY_D->const byte = 68;
+	public static KEY_E->const byte = 69;
+	public static KEY_F->const byte = 70;
+	public static KEY_G->const byte = 71;
+	public static KEY_H->const byte = 72;
+	public static KEY_I->const byte = 73;
+	public static KEY_J->const byte = 74;
+	public static KEY_K->const byte = 75;
+	public static KEY_L->const byte = 76;
+	public static KEY_M->const byte = 77;
+	public static KEY_N->const byte = 78;
+	public static KEY_O->const byte = 79;
+	public static KEY_P->const byte = 80;
+	public static KEY_Q->const byte = 81;
+	public static KEY_R->const byte = 82;
+	public static KEY_S->const byte = 83;
+	public static KEY_T->const byte = 84;
+	public static KEY_U->const byte = 85;
+	public static KEY_V->const byte = 86;
+	public static KEY_W->const byte = 87;
+	public static KEY_X->const byte = 88;
+	public static KEY_Y->const byte = 89;
+	public static KEY_Z->const byte = 90;
+	public static KEY_LEFT_BRACKET->const byte = 91;  /* [ */
+	public static KEY_BACKSLASH->const byte = 92;  /* \ */
+	public static KEY_RIGHT_BRACKET->const byte = 93;  /* ] */
+	public static KEY_GRAVE_ACCENT->const byte = 96;  /* ` */
+	public static KEY_WORLD_1->const byte = 161; /* non-US #1 */
+	public static KEY_WORLD_2->const byte = 162; /* non-US #2 */
+
+	/* Function keys */
+	public static KEY_ESCAPE->const byte = 256;
+	public static KEY_ENTER->const byte = 257;
+	public static KEY_TAB->const byte = 258;
+	public static KEY_BACKSPACE->const byte = 259;
+	public static KEY_INSERT->const byte = 260;
+	public static KEY_DELETE->const byte = 261;
+	public static KEY_RIGHT->const byte = 262;
+	public static KEY_LEFT->const byte = 263;
+	public static KEY_DOWN->const byte = 264;
+	public static KEY_UP->const byte = 265;
+	public static KEY_PAGE_UP->const byte = 266;
+	public static KEY_PAGE_DOWN->const byte = 267;
+	public static KEY_HOME->const byte = 268;
+	public static KEY_END->const byte = 269;
+	public static KEY_CAPS_LOCK->const byte = 280;
+	public static KEY_SCROLL_LOCK->const byte = 281;
+	public static KEY_NUM_LOCK->const byte = 282;
+	public static KEY_PRINT_SCREEN->const byte = 283;
+	public static KEY_PAUSE->const byte = 284;
+	public static KEY_F1->const byte = 290;
+	public static KEY_F2->const byte = 291;
+	public static KEY_F3->const byte = 292;
+	public static KEY_F4->const byte = 293;
+	public static KEY_F5->const byte = 294;
+	public static KEY_F6->const byte = 295;
+	public static KEY_F7->const byte = 296;
+	public static KEY_F8->const byte = 297;
+	public static KEY_F9->const byte = 298;
+	public static KEY_F10->const byte = 299;
+	public static KEY_F11->const byte = 300;
+	public static KEY_F12->const byte = 301;
+	public static KEY_F13->const byte = 302;
+	public static KEY_F14->const byte = 303;
+	public static KEY_F15->const byte = 304;
+	public static KEY_F16->const byte = 305;
+	public static KEY_F17->const byte = 306;
+	public static KEY_F18->const byte = 307;
+	public static KEY_F19->const byte = 308;
+	public static KEY_F20->const byte = 309;
+	public static KEY_F21->const byte = 310;
+	public static KEY_F22->const byte = 311;
+	public static KEY_F23->const byte = 312;
+	public static KEY_F24->const byte = 313;
+	public static KEY_F25->const byte = 314;
+	public static KEY_KP_0->const byte = 320;
+	public static KEY_KP_1->const byte = 321;
+	public static KEY_KP_2->const byte = 322;
+	public static KEY_KP_3->const byte = 323;
+	public static KEY_KP_4->const byte = 324;
+	public static KEY_KP_5->const byte = 325;
+	public static KEY_KP_6->const byte = 326;
+	public static KEY_KP_7->const byte = 327;
+	public static KEY_KP_8->const byte = 328;
+	public static KEY_KP_9->const byte = 329;
+	public static KEY_KP_DECIMAL->const byte = 330;
+	public static KEY_KP_DIVIDE->const byte = 331;
+	public static KEY_KP_MULTIPLY->const byte = 332;
+	public static KEY_KP_SUBTRACT->const byte = 333;
+	public static KEY_KP_ADD->const byte = 334;
+	public static KEY_KP_ENTER->const byte = 335;
+	public static KEY_KP_EQUAL->const byte = 336;
+	public static KEY_LEFT_SHIFT->const byte = 340;
+	public static KEY_LEFT_CONTROL->const byte = 341;
+	public static KEY_LEFT_ALT->const byte = 342;
+	public static KEY_LEFT_SUPER->const byte = 343;
+	public static KEY_RIGHT_SHIFT->const byte = 344;
+	public static KEY_RIGHT_CONTROL->const byte = 345;
+	public static KEY_RIGHT_ALT->const byte = 346;
+	public static KEY_RIGHT_SUPER->const byte = 347;
+	public static KEY_MENU->const byte = 348;
+
+	public static KEY_LAST->const byte = Key.KEY_MENU;
+}
+
+public class Mouse
+{
+	/* Mouse buttons */
+	public static MOUSE_BUTTON_1->const byte = 0;
+	public static MOUSE_BUTTON_2->const byte = 1;
+	public static MOUSE_BUTTON_3->const byte = 2;
+	public static MOUSE_BUTTON_4->const byte = 3;
+	public static MOUSE_BUTTON_5->const byte = 4;
+	public static MOUSE_BUTTON_6->const byte = 5;
+	public static MOUSE_BUTTON_7->const byte = 6;
+	public static MOUSE_BUTTON_8->const byte = 7;
+	public static MOUSE_BUTTON_LAST->const byte = Mouse.MOUSE_BUTTON_8;
+	public static MOUSE_BUTTON_LEFT->const byte = Mouse.MOUSE_BUTTON_1;
+	public static MOUSE_BUTTON_RIGHT->const byte = Mouse.MOUSE_BUTTON_2;
+	public static MOUSE_BUTTON_MIDDLE->const byte = Mouse.MOUSE_BUTTON_3;
+}
