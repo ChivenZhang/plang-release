@@ -1,6 +1,9 @@
-# plang-1.4.4
+# plang-1.4.5
+
+上次更新：2021/1/12
 
 #### 软件介绍：
+
 	a) Plang语言为支持面向对象的计算机编程语言;
 	b) bin目录下的x64/plang.exe、 x86/plang32.exe是 Windows10 x64 平台下支持良好的Plang语言编译、解释程序;
 	c) bin目录下的x64/pdb.exe、 x86/pdb32.exe是 Windows10 x64 平台下支持良好的Plang语言调试程序;
