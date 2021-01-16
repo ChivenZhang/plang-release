@@ -1,18 +1,20 @@
-# plang-1.4.5
+# Plang Programming Script Language for Game Design
 
-上次更新：2021/1/12
+last update：2021/1/12
+#### Current Version
+1.4.5
 
-#### 软件介绍：
+#### Software Introduction
 
 	a) Plang语言为支持面向对象的计算机编程语言;
 	b) bin目录下的x64/plang.exe、 x86/plang32.exe是 Windows10 x64 平台下支持良好的Plang语言编译、解释程序;
 	c) bin目录下的x64/pdb.exe、 x86/pdb32.exe是 Windows10 x64 平台下支持良好的Plang语言调试程序;
 
-#### 设计目的
+#### Design Goal
 	a) 嵌入C/C++系统的脚本语言；
 	b) 游戏脚本系统；
 
-#### 语言特点
+#### Syntax Feature
 	a) 采用面向对象的程序设计思想；
 	b) 支持继承、多态、抽象、封装；
 	c) 支持本地方法调用（Plang Native Interface）；
@@ -20,10 +22,10 @@
 	e) 语法借鉴C++、Java；
 	f) 提供基本工具库，包含输入输出、集合、文件读写、XML解析、时间工具等
 
-#### 语言语法
-	参考《Plang用户文档》；
+#### Script Grammar
+	《Plang用户文档》 for reference；
 
-#### 使用方法
+#### How to Start
 	a)
 		1、将 bin/x64 或 bin/x86 目录添加到Path环境变量中；
 		2、打开命令行（cmd.exe）；
@@ -33,7 +35,7 @@
 	b) 双击run_??.bat文件即可运行测试类；
 
 
-#### 参数说明
+#### Command Specification
 	a) plang [-s SourceFilePath] [-o OutputFilePath] [-i ImportClassPath] [-c MainClassName]
 	
 		-s：指定源文件编译目录；
@@ -79,7 +81,7 @@
 		trace：打印调用堆栈；
 		quit/exit：退出调试；
 
-#### 使用举例
+#### For Example
 	a) plang -s src -o output
 	编译当前src目录所包含的所有源文件（.ps)，并将字节码文件（.p）导入 output 目录中；
 	
@@ -89,7 +91,7 @@
 	c) pdb -o output -c basic/Test -d yes
 	调试output目录下的basic/Test类中名为“main()->int”的公共静态方法，程序将在首条指令处中断；
 
-#### 注意事项
+#### Something Need to Notice
 	a) 建议在Sublime text.exe中，使用GBK编码进行ps源文件编辑（防止中文乱码）；另外将ps文件的配色方案统一设置成Groovy，可改善用户编程体验；
 	
 	b) 调试程序pdb.exe是解释/执行程序plang.exe的功能超集，存在执行效率问题；
