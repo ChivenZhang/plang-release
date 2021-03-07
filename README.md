@@ -1,4 +1,4 @@
-# Plang Programming Script Language for Game Design
+# Plang Programming Language for Game Design
 
 last update：2021/1/12
 #### Current Version
