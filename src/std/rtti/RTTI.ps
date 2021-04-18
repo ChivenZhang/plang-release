@@ -1,0 +1,11 @@
+package std;
+
+public class RTTI
+{
+	// Obtain class name of instance
+	public static native classOf(obj->Object)->const char[];
+
+	// Create instance by specific class name using empty-arg constructor.
+	public static native objectOf(klass->const char[])->Object;
+
+}
