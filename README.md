@@ -1,8 +1,8 @@
 # Plang Programming Language for Game Design
 
-last update：2021/1/12
+last update：2021/4/18
 #### Current Version
-1.4.5
+1.4.6
 
 
 
