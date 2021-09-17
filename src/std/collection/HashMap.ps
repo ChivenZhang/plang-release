@@ -7,34 +7,35 @@ public class HashMap : Map
 	friend class HashMapIterator;
 	friend class HashMapValueIterator;
 
-	d_bucket->ArrayList[];
-	d_size->int;
+	m_bucket->ArrayList[];
+	m_size->int;
+	
 	public HashMap()
 	{
-		d_bucket=new ArrayList[32];
-		d_size=0;
+		m_bucket=new ArrayList[32];
+		m_size=0;
 		i->int=0;
-		while(i<d_bucket.length){
-			d_bucket[i++]=new ArrayList();
+		while(i<m_bucket.length){
+			m_bucket[i++]=new ArrayList();
 		}
 	}
 	public HashMap(size->int)
 	{
 		size=size<=32?32:(1024<size?1024:size);
-		d_bucket=new ArrayList[size];
-		d_size=0;
+		m_bucket=new ArrayList[size];
+		m_size=0;
 		i->int=0;
-		while(i<d_bucket.length){
-			d_bucket[i++]=new ArrayList();
+		while(i<m_bucket.length){
+			m_bucket[i++]=new ArrayList();
 		}
 	}
 	public put(k->Object, v->Object)
 	{
 		if(k==null)return;
-		buckNum->const int=d_bucket.length;
+		buckNum->const int=m_bucket.length;
 		hashcode->int=k.hashcode();
 		index->int=(hashcode%buckNum+buckNum)%buckNum;
-		vec->ArrayList=d_bucket[index];
+		vec->ArrayList=m_bucket[index];
 		i->int=0;
 		size->int=vec.size();
 		while(i<size){
@@ -46,15 +47,15 @@ public class HashMap : Map
 			++i;
 		}
 		vec.add(new HashMapNode(k, v));
-		++d_size;
+		++m_size;
 	}
 	public get(k->Object)->Object
 	{
 		if(k==null)return null;
-		buckNum->const int=d_bucket.length;
+		buckNum->const int=m_bucket.length;
 		hashcode->int=k.hashcode();
 		index->int=(hashcode%buckNum+buckNum)%buckNum;
-		vec->ArrayList=d_bucket[index];
+		vec->ArrayList=m_bucket[index];
 		i->int=0;
 		size->int=vec.size();
 		while(i<size){
@@ -69,17 +70,17 @@ public class HashMap : Map
 	public remove(k->Object)
 	{
 		if(k==null)return;
-		buckNum->const int=d_bucket.length;
+		buckNum->const int=m_bucket.length;
 		hashcode->int=k.hashcode();
 		index->int=(hashcode%buckNum+buckNum)%buckNum;
-		vec->ArrayList=d_bucket[index];
+		vec->ArrayList=m_bucket[index];
 		i->int=0;
 		size->int=vec.size();
 		while(i<size){
 			pair->HashMapNode=vec.get(i);
 			if(pair.key.hashcode()==hashcode){
 				vec.remove(i);
-				--d_size;
+				--m_size;
 				return;
 			}
 			++i;
@@ -88,10 +89,10 @@ public class HashMap : Map
 	public exist(k->Object)->boolean
 	{
 		if(k==null)return false;
-		buckNum->const int=d_bucket.length;
+		buckNum->const int=m_bucket.length;
 		hashcode->int=k.hashcode();
 		index->int=(hashcode%buckNum+buckNum)%buckNum;
-		vec->ArrayList=d_bucket[index];
+		vec->ArrayList=m_bucket[index];
 		i->int=0;
 		size->int=vec.size();
 		while(i<size){
@@ -103,13 +104,13 @@ public class HashMap : Map
 		}
 		return false;
 	}
-	public empty()->boolean{return d_size==0;}
+	public empty()->boolean{return m_size==0;}
 	public clear()
 	{
-		d_bucket=new ArrayList[32];
-		d_size=0;
+		m_bucket=new ArrayList[32];
+		m_size=0;
 	}
-	public size()->int{return d_size;}
+	public size()->int{return m_size;}
 	public keys()->Iterator{return new HashMapIterator(this);}
 	public values()->Iterator{return new HashMapValueIterator(this);}
 }
@@ -127,28 +128,28 @@ class HashMapNode : Object
 
 class HashMapIterator : Iterator
 {
-	protected d_map->HashMap;
-	protected d_bkrow->int=0;
-	protected d_bkcol->int=0;
-	public HashMapIterator(map->HashMap){d_map=map;}
+	protected m_map->HashMap;
+	protected m_bkrow->int=0;
+	protected m_bkcol->int=0;
+	public HashMapIterator(map->HashMap){m_map=map;}
 	public hasNext()->boolean
 	{
-		buckets->ArrayList[]=d_map.d_bucket;
-		while(d_bkrow<buckets.length){
-			bucket->ArrayList=buckets[d_bkrow];
-			if(d_bkcol<bucket.size())return true;
-			++d_bkrow;
-			d_bkcol=0;
+		buckets->ArrayList[]=m_map.m_bucket;
+		while(m_bkrow<buckets.length){
+			bucket->ArrayList=buckets[m_bkrow];
+			if(m_bkcol<bucket.size())return true;
+			++m_bkrow;
+			m_bkcol=0;
 		}
 		return false;
 	}
 	public next()->Object
 	{
-		buckets->ArrayList[]=d_map.d_bucket;
-		if(d_bkrow<buckets.length){
-			bucket->ArrayList=buckets[d_bkrow];
-			if(d_bkcol<bucket.size()){
-				return bucket.get(d_bkcol++)->(HashMapNode).key;
+		buckets->ArrayList[]=m_map.m_bucket;
+		if(m_bkrow<buckets.length){
+			bucket->ArrayList=buckets[m_bkrow];
+			if(m_bkcol<bucket.size()){
+				return bucket.get(m_bkcol++)->(HashMapNode).key;
 			}
 			else return null;
 		}
@@ -161,11 +162,11 @@ class HashMapValueIterator : HashMapIterator
 	public HashMapValueIterator(map->HashMap){super(map);}
 	public next()->Object
 	{
-		buckets->ArrayList[]=d_map.d_bucket;
-		if(d_bkrow<buckets.length){
-			bucket->ArrayList=buckets[d_bkrow];
-			if(d_bkcol<bucket.size()){
-				return bucket.get(d_bkcol++)->(HashMapNode).value;
+		buckets->ArrayList[]=m_map.m_bucket;
+		if(m_bkrow<buckets.length){
+			bucket->ArrayList=buckets[m_bkrow];
+			if(m_bkcol<bucket.size()){
+				return bucket.get(m_bkcol++)->(HashMapNode).value;
 			}
 			else return null;
 		}

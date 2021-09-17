@@ -4,16 +4,16 @@ import std::Object;
 
 public class TreeMap : Map
 {
-	d_node->TreeMapNode;
-	d_size->int=0;
+	m_node->TreeMapNode;
+	m_size->int=0;
 	public TreeMap(){}
 	public put(k->Object, v->Object)
 	{
 		if(k==null)return;
-		node->TreeMapNode=d_node;
+		node->TreeMapNode=m_node;
 		if(node==null){
-			d_node=new TreeMapNode(k,v);
-			++d_size;
+			m_node=new TreeMapNode(k,v);
+			++m_size;
 			return;
 		}
 		else{
@@ -23,7 +23,7 @@ public class TreeMap : Map
 				if(hashcode0<hashcode1){
 					if(node.l==null){
 						node.l=new TreeMapNode(k,v);
-						++d_size;
+						++m_size;
 						return;
 					}
 					else node=node.l;
@@ -31,7 +31,7 @@ public class TreeMap : Map
 				else if(hashcode1<hashcode0){
 					if(node.r==null){
 						node.r=new TreeMapNode(k,v);
-						++d_size;
+						++m_size;
 						return;
 					}
 					else node=node.r;
@@ -47,7 +47,7 @@ public class TreeMap : Map
 	public get(k->Object)->Object{
 		if(k==null)return null;
 		hashcode0->int=k.hashcode();
-		node->TreeMapNode=d_node;
+		node->TreeMapNode=m_node;
 		while(node!=null){
 			hashcode1->int=node.k.hashcode();
 			if(hashcode0<hashcode1)node=node.l;
@@ -60,7 +60,7 @@ public class TreeMap : Map
 	{
 		if(k==null)return;
 		hashcode0->int=k.hashcode();
-		node->TreeMapNode=d_node;
+		node->TreeMapNode=m_node;
 		last->TreeMapNode=null;
 		while(node!=null){
 			hashcode1->int=node.k.hashcode();
@@ -73,12 +73,12 @@ public class TreeMap : Map
 				node=node.r;
 			}
 			else {
-				if(last==null)d_node=null;
+				if(last==null)m_node=null;
 				else{
 					if(last.l==node)last.l=null;
 					else if(last.r==node)last.r=null;
 				}
-				--d_size;
+				--m_size;
 				return;
 			}
 		}
@@ -87,7 +87,7 @@ public class TreeMap : Map
 	{
 		if(k==null)return false;
 		hashcode0->int=k.hashcode();
-		node->TreeMapNode=d_node;
+		node->TreeMapNode=m_node;
 		while(node!=null){
 			hashcode1->int=node.k.hashcode();
 			if(hashcode0<hashcode1)node=node.l;
@@ -96,11 +96,11 @@ public class TreeMap : Map
 		}
 		return false;
 	}
-	public empty()->boolean{return d_size==0;}
-	public clear(){d_node=null;d_size=0;}
-	public size()->int{return d_size;}
-	public keys()->Iterator{return new TreeMapIterator(d_node);}
-	public values()->Iterator{return new TreeMapValueIterator(d_node);}
+	public empty()->boolean{return m_size==0;}
+	public clear(){m_node=null;m_size=0;}
+	public size()->int{return m_size;}
+	public keys()->Iterator{return new TreeMapIterator(m_node);}
+	public values()->Iterator{return new TreeMapValueIterator(m_node);}
 }
 
 class TreeMapNode : Object
@@ -114,26 +114,26 @@ class TreeMapNode : Object
 
 class TreeMapIterator : Iterator
 {
-	protected d_stack->Stack;
+	protected m_stack->Stack;
 	public TreeMapIterator(node->TreeMapNode)
 	{
 		if(node==null)return;
-		d_stack=new Stack();
-		d_stack.push(node);
+		m_stack=new Stack();
+		m_stack.push(node);
 	}
 	public hasNext()->boolean
 	{
-		if(d_stack==null)return false;
-		return !d_stack.empty();
+		if(m_stack==null)return false;
+		return !m_stack.empty();
 	}
 	public next()->Object
 	{
-		if(d_stack==null)return null;
-		if(d_stack.empty())return null;
+		if(m_stack==null)return null;
+		if(m_stack.empty())return null;
 		else{
-			node->TreeMapNode=d_stack.pop();
-			if(node.r!=null)d_stack.push(node.r);
-			if(node.l!=null)d_stack.push(node.l);
+			node->TreeMapNode=m_stack.pop();
+			if(node.r!=null)m_stack.push(node.r);
+			if(node.l!=null)m_stack.push(node.l);
 			return node.k;
 		}
 	}
@@ -144,12 +144,12 @@ class TreeMapValueIterator : TreeMapIterator
 	public TreeMapValueIterator(node->TreeMapNode){super(node);}
 	public next()->Object
 	{
-		if(d_stack==null)return null;
-		if(d_stack.empty())return null;
+		if(m_stack==null)return null;
+		if(m_stack.empty())return null;
 		else{
-			node->TreeMapNode=d_stack.pop();
-			if(node.r!=null)d_stack.push(node.r);
-			if(node.l!=null)d_stack.push(node.l);
+			node->TreeMapNode=m_stack.pop();
+			if(node.r!=null)m_stack.push(node.r);
+			if(node.l!=null)m_stack.push(node.l);
 			return node.v;
 		}
 	}

@@ -6,34 +6,34 @@ public class HashSet : Collection
 {
 	friend class HashSetIterator;
 
-	d_bucket->ArrayList[];
-	d_size->int;
+	m_bucket->ArrayList[];
+	m_size->int;
 	public HashSet()
 	{
-		d_bucket=new ArrayList[32];
-		d_size=0;
+		m_bucket=new ArrayList[32];
+		m_size=0;
 		i->int=0;
-		while(i<d_bucket.length){
-			d_bucket[i++]=new ArrayList();
+		while(i<m_bucket.length){
+			m_bucket[i++]=new ArrayList();
 		}
 	}
 	public HashSet(size->int)
 	{
 		size=size<=32?32:(1024<size?1024:size);
-		d_bucket=new ArrayList[size];
-		d_size=0;
+		m_bucket=new ArrayList[size];
+		m_size=0;
 		i->int=0;
-		while(i<d_bucket.length){
-			d_bucket[i++]=new ArrayList();
+		while(i<m_bucket.length){
+			m_bucket[i++]=new ArrayList();
 		}
 	}
 	public add(e->Object)
 	{
 		if(e==null)return;
-		buckNum->const int=d_bucket.length;
+		buckNum->const int=m_bucket.length;
 		hashcode->int=e.hashcode();
 		index->int=(hashcode%buckNum+buckNum)%buckNum;
-		vec->ArrayList=d_bucket[index];
+		vec->ArrayList=m_bucket[index];
 		i->int=0;
 		size->int=vec.size();
 		while(i<size){
@@ -44,22 +44,22 @@ public class HashSet : Collection
 			++i;
 		}
 		vec.add(e);
-		++d_size;
+		++m_size;
 	}
 	
 	public remove(e->Object)
 	{
 		if(e==null)return;
-		buckNum->const int=d_bucket.length;
+		buckNum->const int=m_bucket.length;
 		hashcode->int=e.hashcode();
 		index->int=(hashcode%buckNum+buckNum)%buckNum;
-		vec->ArrayList=d_bucket[index];
+		vec->ArrayList=m_bucket[index];
 		i->int=0;
 		size->int=vec.size();
 		while(i<size){
 			if(vec.get(i).hashcode()==hashcode){
 				vec.remove(i);
-				--d_size;
+				--m_size;
 				return;
 			}
 			++i;
@@ -68,10 +68,10 @@ public class HashSet : Collection
 	public exist(e->Object)->boolean
 	{
 		if(e==null)return false;
-		buckNum->const int=d_bucket.length;
+		buckNum->const int=m_bucket.length;
 		hashcode->int=e.hashcode();
 		index->int=(hashcode%buckNum+buckNum)%buckNum;
-		vec->ArrayList=d_bucket[index];
+		vec->ArrayList=m_bucket[index];
 		i->int=0;
 		size->int=vec.size();
 		while(i<size){
@@ -82,34 +82,34 @@ public class HashSet : Collection
 		}
 		return false;
 	}
-	public size()->int{return d_size;}
+	public size()->int{return m_size;}
 	public iterator()->Iterator{return new HashSetIterator(this);}
 }
 
 class HashSetIterator : Iterator
 {
-	d_set->HashSet;
-	d_bkrow->int=0;
-	d_bkcol->int=0;
-	public HashSetIterator(set->HashSet){d_set=set;}
+	m_set->HashSet;
+	m_bkrow->int=0;
+	m_bkcol->int=0;
+	public HashSetIterator(set->HashSet){m_set=set;}
 	public hasNext()->boolean
 	{
-		buckets->ArrayList[]=d_set.d_bucket;
-		while(d_bkrow<buckets.length){
-			bucket->ArrayList=buckets[d_bkrow];
-			if(d_bkcol<bucket.size())return true;
-			++d_bkrow;
-			d_bkcol=0;
+		buckets->ArrayList[]=m_set.m_bucket;
+		while(m_bkrow<buckets.length){
+			bucket->ArrayList=buckets[m_bkrow];
+			if(m_bkcol<bucket.size())return true;
+			++m_bkrow;
+			m_bkcol=0;
 		}
 		return false;
 	}
 	public next()->Object
 	{
-		buckets->ArrayList[]=d_set.d_bucket;
-		if(d_bkrow<buckets.length){
-			bucket->ArrayList=buckets[d_bkrow];
-			if(d_bkcol<bucket.size()){
-				return bucket.get(d_bkcol++);
+		buckets->ArrayList[]=m_set.m_bucket;
+		if(m_bkrow<buckets.length){
+			bucket->ArrayList=buckets[m_bkrow];
+			if(m_bkcol<bucket.size()){
+				return bucket.get(m_bkcol++);
 			}
 			else return null;
 		}

@@ -4,15 +4,15 @@ import std::Object;
 
 public class LinkedList : List 
 {
-	private d_head->LinkedListNode;
-	private d_tail->LinkedListNode;
-	private d_size->int;
+	private m_head->LinkedListNode;
+	private m_tail->LinkedListNode;
+	private m_size->int;
 
 	public LinkedList()
 	{
-		d_head=new LinkedListNode();
-		d_tail=d_head;
-		d_size=0;
+		m_head=new LinkedListNode();
+		m_tail=m_head;
+		m_size=0;
 	}
 
 	public add(e->Object)
@@ -20,22 +20,22 @@ public class LinkedList : List
 		if(e==null)return;
 		node->LinkedListNode=new LinkedListNode();
 		node.data=e;
-		d_tail.next=node;
-		d_tail=node;
-		++d_size;
+		m_tail.next=node;
+		m_tail=node;
+		++m_size;
 	}
 
 	public remove(index->int)
 	{
-		if(0<=index && index<d_size){
+		if(0<=index && index<m_size){
 			i->int=0;
-			node->LinkedListNode=d_head;
+			node->LinkedListNode=m_head;
 			while(node.next!=null){
 				if(i==index){
 					node.next=node.next.next;
-					--d_size;
+					--m_size;
 					if(node.next==null){
-						d_tail=node;
+						m_tail=node;
 					}
 					return;
 				}
@@ -48,13 +48,13 @@ public class LinkedList : List
 	public remove(e->Object)
 	{
 		if(e==null)return;
-		node->LinkedListNode=d_head;
+		node->LinkedListNode=m_head;
 		while(node.next!=null){
 			if(node.next.data.equals(e)){
 				node.next=node.next.next;
-				--d_size;
+				--m_size;
 				if(node.next==null){
-					d_tail=node;
+					m_tail=node;
 				}
 				return;
 			}
@@ -64,9 +64,9 @@ public class LinkedList : List
 
 	public get(index->int)->Object 
 	{
-		if(0<=index && index<d_size){
+		if(0<=index && index<m_size){
 			i->int=0;
-			node->LinkedListNode=d_head;
+			node->LinkedListNode=m_head;
 			while(node.next !=null){
 				if(i==index){
 					return node.next.data;
@@ -81,10 +81,10 @@ public class LinkedList : List
 	public set(index->int, e->Object)
 	{
 		if(e==null)return;
-		if(0<=index&&index<d_size){
-			node->LinkedListNode=d_head;
+		if(0<=index&&index<m_size){
+			node->LinkedListNode=m_head;
 			i->int=0;
-			while(i<d_size){
+			while(i<m_size){
 				if(i==index){
 					node.next.data=e;
 					return;
@@ -99,7 +99,7 @@ public class LinkedList : List
 	{
 		if(e==null)return -1;
 		i->int=0;
-		node->LinkedListNode=d_head;
+		node->LinkedListNode=m_head;
 		while(node.next!=null){
 			if(node.next.data.equals(e)){
 				return i;
@@ -113,7 +113,7 @@ public class LinkedList : List
 	public exist(e->Object)->boolean
 	{
 		if(e==null)return false;
-		node->LinkedListNode=d_head;
+		node->LinkedListNode=m_head;
 		while(node.next!=null){
 			if(node.next.data.equals(e)){
 				return true;
@@ -123,24 +123,24 @@ public class LinkedList : List
 		return false;
 	}
 
-	public empty()->boolean{return d_size==0;}
+	public empty()->boolean{return m_size==0;}
 
 	public clear()
 	{
-		d_head.next=null;
-		d_tail=d_head;
-		d_size=0;
+		m_head.next=null;
+		m_tail=m_head;
+		m_size=0;
 	}
 
-	public size()->int{return d_size;}
-	public iterator()->Iterator{return new LinkedListIterator(d_head.next);}
+	public size()->int{return m_size;}
+	public iterator()->Iterator{return new LinkedListIterator(m_head.next);}
 
 	public toArray()->Object[]
 	{
 		if(empty())return null;
-		temp->Object[]=new Object[d_size];
+		temp->Object[]=new Object[m_size];
 		i->int=0;
-		node->LinkedListNode=d_head.next;
+		node->LinkedListNode=m_head.next;
 		while(node!=null){
 			temp[i]=node.data;
 			node=node.next;
@@ -160,15 +160,15 @@ class LinkedListNode : Object
 
 class LinkedListIterator : Iterator
 {
-	private d_index->LinkedListNode;
-	public LinkedListIterator(node->LinkedListNode){d_index=node;}
-	public hasNext()->boolean{return d_index!=null;}
+	private m_index->LinkedListNode;
+	public LinkedListIterator(node->LinkedListNode){m_index=node;}
+	public hasNext()->boolean{return m_index!=null;}
 	public next()->Object
 	{
-		if(d_index==null)return null;
+		if(m_index==null)return null;
 		else {
-			item->Object=d_index.data;
-			d_index=d_index.next;
+			item->Object=m_index.data;
+			m_index=m_index.next;
 			return item;
 		}
 	}

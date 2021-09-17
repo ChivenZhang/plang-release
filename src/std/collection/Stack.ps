@@ -4,26 +4,26 @@ import std::Object;
 
 public class Stack : Collection
 {
-	d_vector->ArrayList;
-	public Stack(){d_vector=new ArrayList();}
-	public push(e->Object){d_vector.add(e);}
+	m_vector->ArrayList;
+	public Stack(){m_vector=new ArrayList();}
+	public push(e->Object){m_vector.add(e);}
 	public pop()->Object
 	{
-		if(d_vector.empty())return null;
+		if(m_vector.empty())return null;
 		else{
-			last->int=d_vector.size()-1;
-			temp->Object=d_vector.get(last);
-			d_vector.remove(last);
+			last->int=m_vector.size()-1;
+			temp->Object=m_vector.get(last);
+			m_vector.remove(last);
 			return temp;
 		}
 	}
 	public top()->Object
 	{
-		if(d_vector.empty())return null;
-		else return d_vector.get(d_vector.size()-1);
+		if(m_vector.empty())return null;
+		else return m_vector.get(m_vector.size()-1);
 	}
-	public exist(e->Object)->boolean{return d_vector.exist(e);}
-	public empty()->boolean{return d_vector.empty();}
-	public clear(){d_vector.clear();}
-	public size()->int{return d_vector.size();}
+	public exist(e->Object)->boolean{return m_vector.exist(e);}
+	public empty()->boolean{return m_vector.empty();}
+	public clear(){m_vector.clear();}
+	public size()->int{return m_vector.size();}
 }

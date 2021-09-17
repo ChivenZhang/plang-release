@@ -6,64 +6,64 @@ public class ArrayList : List
 {
 	friend class ArrayListIterator;
 
-	d_array->Object[];
-	d_size->int;
+	m_array->Object[];
+	m_size->int;
 
 	public ArrayList()
 	{
-		d_array = new Object[16];
-		d_size=0;
+		m_array = new Object[16];
+		m_size=0;
 	}
 
 	public add(e->Object)
 	{
 		if(e==null)return;
-		if(d_size < d_array.length);
+		if(m_size < m_array.length);
 		else{
-			temp->Object[] = new Object[2*d_array.length];
+			temp->Object[] = new Object[2*m_array.length];
 			i->int = 0;
-			while(i<d_array.length) temp[i] = d_array[i++];
-			d_array = temp;
+			while(i<m_array.length) temp[i] = m_array[i++];
+			m_array = temp;
 		}
-		d_array[d_size++] = e;
+		m_array[m_size++] = e;
 	}
 
 	public add(e->Object, index->int)
 	{
 		if(e==null)return;
-		if(0<=index&&index<=d_size){
-			if(d_size<d_array.length){
-				i->int = d_size;
+		if(0<=index&&index<=m_size){
+			if(m_size<m_array.length){
+				i->int = m_size;
 				while(index<i){
-					d_array[i] = d_array[--i];
+					m_array[i] = m_array[--i];
 				}
-				d_array[index] = e;
+				m_array[index] = e;
 			}
 			else{
-				temp->Object[] = new Object[2*d_array.length];
+				temp->Object[] = new Object[2*m_array.length];
 				i->int = 0;
 				while(i<index) {
-					temp[i] = d_array[i++];
+					temp[i] = m_array[i++];
 				}
-				i=d_size;
+				i=m_size;
 				while(index<i){
-					temp[i] = d_array[--i];
+					temp[i] = m_array[--i];
 				}
 				temp[index]=e;
-				d_array = temp;
+				m_array = temp;
 			}
-			++d_size;
+			++m_size;
 		}
 	}
 
 	public remove(index->int)
 	{
-		if(0<=index && index<d_size){
+		if(0<=index && index<m_size){
 			i->int = index;
-			while(i+1<d_size){
-				d_array[i] = d_array[++i];
+			while(i+1<m_size){
+				m_array[i] = m_array[++i];
 			}
-			--d_size;
+			--m_size;
 		}
 	}
 
@@ -71,12 +71,12 @@ public class ArrayList : List
 	{
 		if(e==null)return;
 		i->int=0;
-		while(i<d_size){
-			if(d_array[i].equals(e)){
-				while(i+1<d_size){
-					d_array[i]=d_array[++i];
+		while(i<m_size){
+			if(m_array[i].equals(e)){
+				while(i+1<m_size){
+					m_array[i]=m_array[++i];
 				}
-				--d_size;
+				--m_size;
 				return;
 			}
 			++i;
@@ -85,8 +85,8 @@ public class ArrayList : List
 
 	public get(index->int)->Object
 	{
-		if(0<=index && index<d_size){
-			return d_array[index];
+		if(0<=index && index<m_size){
+			return m_array[index];
 		}
 		return null;
 	}
@@ -94,8 +94,8 @@ public class ArrayList : List
 	public set(index->int, e->Object)
 	{
 		if(e==null)return;
-		if(0<=index&&index<d_size){
-			d_array[index]=e;
+		if(0<=index&&index<m_size){
+			m_array[index]=e;
 		}
 	}
 
@@ -103,8 +103,8 @@ public class ArrayList : List
 	{
 		if(e==null)return -1;
 		i->int=0;
-		while(i<d_size){
-			if(d_array[i].equals(e)){
+		while(i<m_size){
+			if(m_array[i].equals(e)){
 				return i;
 			}
 			else ++i;
@@ -116,33 +116,33 @@ public class ArrayList : List
 	{
 		if(e==null)return false;
 		i->int=0;
-		while(i<d_size){
-			if(d_array[i++].equals(e)){
+		while(i<m_size){
+			if(m_array[i++].equals(e)){
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public empty()->boolean{return d_size==0;}
+	public empty()->boolean{return m_size==0;}
 
 	public clear()
 	{
-		d_array = new Object[16];
-		d_size = 0;
+		m_array = new Object[16];
+		m_size = 0;
 	}
 
-	public size()->int{return d_size;}
+	public size()->int{return m_size;}
 
 	public iterator()->Iterator{return new ArrayListIterator(this);}
 
 	public toArray()->Object[]
 	{
 		if(empty())return null;
-		temp->Object[]=new Object[d_size];
+		temp->Object[]=new Object[m_size];
 		i->int=0;
-		while(i<d_size){
-			temp[i]=d_array[i++];
+		while(i<m_size){
+			temp[i]=m_array[i++];
 		}
 		return temp;
 	}
@@ -150,16 +150,16 @@ public class ArrayList : List
 
 class ArrayListIterator : Iterator
 {
-	private d_vec->ArrayList;
-	private d_index->int=0;
-	public ArrayListIterator(vec->ArrayList){d_vec=vec;}
+	private m_vec->ArrayList;
+	private m_index->int=0;
+	public ArrayListIterator(vec->ArrayList){m_vec=vec;}
 	public hasNext()->boolean
 	{
-		return d_index<d_vec.d_size;
+		return m_index<m_vec.m_size;
 	}
 	public next()->Object
 	{
-		if(d_index<d_vec.d_size)return d_vec.d_array[d_index++];
+		if(m_index<m_vec.m_size)return m_vec.m_array[m_index++];
 		else return null;
 	}
 }

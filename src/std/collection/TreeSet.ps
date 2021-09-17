@@ -4,16 +4,16 @@ import std::Object;
 
 public class TreeSet : Collection 
 {
-	private d_node->TreeSetNode;
-	private d_size->int=0;
+	private m_node->TreeSetNode;
+	private m_size->int=0;
 	public TreeSet(){}
 	public add(e->Object)
 	{
 		if(e==null)return;
-		node->TreeSetNode=d_node;
+		node->TreeSetNode=m_node;
 		if(node==null){
-			d_node=new TreeSetNode(e);
-			++d_size;
+			m_node=new TreeSetNode(e);
+			++m_size;
 			return;
 		}
 		else{
@@ -23,7 +23,7 @@ public class TreeSet : Collection
 				if(hashcode0<hashcode1){
 					if(node.l==null){
 						node.l=new TreeSetNode(e);
-						++d_size;
+						++m_size;
 						return;
 					}
 					else node=node.l;
@@ -31,7 +31,7 @@ public class TreeSet : Collection
 				else if(hashcode1<hashcode0){
 					if(node.r==null){
 						node.r=new TreeSetNode(e);
-						++d_size;
+						++m_size;
 						return;
 					}
 					else node=node.r;
@@ -47,7 +47,7 @@ public class TreeSet : Collection
 	{
 		if(e==null)return;
 		hashcode0->int=e.hashcode();
-		node->TreeSetNode=d_node;
+		node->TreeSetNode=m_node;
 		last->TreeSetNode=null;
 		while(node!=null){
 			hashcode1->int=node.v.hashcode();
@@ -60,12 +60,12 @@ public class TreeSet : Collection
 				node=node.r;
 			}
 			else {
-				if(last==null)d_node=null;
+				if(last==null)m_node=null;
 				else{
 					if(last.l==node)last.l=null;
 					else if(last.r==node)last.r=null;
 				}
-				--d_size;
+				--m_size;
 				return;
 			}
 		}
@@ -74,7 +74,7 @@ public class TreeSet : Collection
 	{
 		if(e==null)return false;
 		hashcode0->int=e.hashcode();
-		node->TreeSetNode=d_node;
+		node->TreeSetNode=m_node;
 		while(node!=null){
 			hashcode1->int=node.v.hashcode();
 			if(hashcode0<hashcode1)node=node.l;
@@ -83,10 +83,10 @@ public class TreeSet : Collection
 		}
 		return false;
 	}
-	public empty()->boolean{return d_size==0;}
-	public clear(){d_node=null;d_size=0;}
-	public size()->int{return d_size;}
-	public iterator()->Iterator{return new TreeSetIterator(d_node);}
+	public empty()->boolean{return m_size==0;}
+	public clear(){m_node=null;m_size=0;}
+	public size()->int{return m_size;}
+	public iterator()->Iterator{return new TreeSetIterator(m_node);}
 }
 
 class TreeSetNode : Object
@@ -99,26 +99,26 @@ class TreeSetNode : Object
 
 class TreeSetIterator : Iterator
 {
-	private d_stack->Stack;
+	private m_stack->Stack;
 	public TreeSetIterator(node->TreeSetNode)
 	{
 		if(node==null)return;
-		d_stack=new Stack();
-		d_stack.push(node);
+		m_stack=new Stack();
+		m_stack.push(node);
 	}
 	public hasNext()->boolean
 	{
-		if(d_stack==null)return false;
-		return !d_stack.empty();
+		if(m_stack==null)return false;
+		return !m_stack.empty();
 	}
 	public next()->Object
 	{
-		if(d_stack==null)return null;
-		if(d_stack.empty())return null;
+		if(m_stack==null)return null;
+		if(m_stack.empty())return null;
 		else{
-			node->TreeSetNode=d_stack.pop();
-			if(node.r!=null)d_stack.push(node.r);
-			if(node.l!=null)d_stack.push(node.l);
+			node->TreeSetNode=m_stack.pop();
+			if(node.r!=null)m_stack.push(node.r);
+			if(node.l!=null)m_stack.push(node.l);
 			return node.v;
 		}
 	}
